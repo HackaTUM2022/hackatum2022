@@ -34,10 +34,11 @@ jobs:
         with:
           context: ./client
           file: ./client/Dockerfile
+          tags: ${{ env.IMAGE_NAME_CLIENT }}
           push: true
           platforms: linux/amd64
-          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME_CLIENT }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME_CLIENT }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME_CLIENT }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME_CLIENT }}:buildcache,mode=max
 
   build-push-server:
     runs-on: ubuntu-latest
@@ -64,10 +65,11 @@ jobs:
         with:
           context: ./server
           file: ./server/Dockerfile
+          tags: ${{ env.IMAGE_NAME_SERVER }}
           push: true
           platforms: linux/amd64
-          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME_SERVER }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME_SERVER }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME_SERVER }}:buildcache
+          cache-to: type=registry,ref=${{ env.IMAGE_NAME_SERVER }}:buildcache,mode=max
 
   deploy:
     runs-on: ubuntu-latest
