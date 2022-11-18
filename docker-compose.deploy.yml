@@ -12,8 +12,6 @@ services:
     volumes:
       - ./server/:/usr/src/app
       - /usr/src/app/node_modules
-    ports:
-      - "8080:8080"
     depends_on:
       - mongo
     env_file: ./server/.env
@@ -49,8 +47,6 @@ services:
       - /usr/app/node_modules
     depends_on:
       - server
-    ports:
-      - "80:3000"
     environment:
       NODE_ENV: development
       VIRTUAL_HOST: hackatum.zagar.dev
