@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  server:
+    image: philippzagar/hackatum-server:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: hackatum-server
+    command: npm run start
+    restart: unless-stopped
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    env_file: ./server/.env
+    environment:
+      NODE_ENV: development
+    networks:
+      - hackatum-network
+
+  mongo:
+    image: mongo:latest
+    container_name: hackatum-mongo
+    restart: unless-stopped
+    env_file: ./server/.env
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - hackatum-network
+
+  client:
+    image: philippzagar/hackatum-client:latest
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: hackatum-client
+    restart: unless-stopped
+    volumes:
+      - ./client/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "80:3000"
+    environment:
+      NODE_ENV: development
+    networks:
+      - hackatum-network
+
+networks:
+  hackatum-network:
+    driver: bridge
+
+volumes:
+  data-volume:

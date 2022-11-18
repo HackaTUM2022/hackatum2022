@@ -1,2 +1,3 @@
-# hackatum2022
-HackaTUM2022
+# HackaTUM2022
+
+Repo for HackaTUM 2022
