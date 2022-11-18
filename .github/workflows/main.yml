@@ -78,6 +78,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Copy files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          source: "client/.env,server/.env,docker-compose.deploy.yml"
+          target: "/home/ubuntu/hackatum/"
+
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -87,6 +97,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd hackatum
-            docker compose down
-            docker compose pull
-            docker compose up -d
+            docker compose -f docker-compose.deploy.yml down
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
