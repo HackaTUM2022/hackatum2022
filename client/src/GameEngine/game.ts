@@ -63,10 +63,10 @@ export class Game {
     initGUI() {
         this.gui = [];
         this.tasks = [];
-        this.tasks.push(new Task(50, 50, "washing-machine", this));
-        this.tasks.push(new Task(50, 150, "dish-washer", this));
-        this.tasks.push(new Task(50, 250, "working", this));
-        this.tasks.push(new Task(50, 350, "solana", this));
+        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 50, "washing-machine", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 50, "dish-washer", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 50, "working", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 50, "solana", this));
         // this.gui.push(Task.createRandom(this));
     }
 
@@ -85,6 +85,10 @@ export class Game {
             // Update all the entities
             for (let entity of this.entities) {
                 entity.update(dt);
+            }
+
+            for (let task of this.tasks) {
+                task.update(dt);
             }
         }
         this.time.update(time_stamp, () => this.onDayStart());

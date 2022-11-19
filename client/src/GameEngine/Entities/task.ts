@@ -22,29 +22,29 @@ export class Task implements Entity {
 
     public x = 0;
     public y = 0;
+    private elapsedTime = 0;
+    private offset = 0;
 
     constructor(x: number, y: number, name: string, game: Game) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.game = game;
+        this.offset = Math.random() * 2;
     }
 
     render(display: Display): void {
-        display.drawCircle(100, 100, 5, "blue");
-
         display.drawImage(this.x, this.y, this.width, this.height, "actions/" + this.name + ".png");
     }
 
-    update(dt: number): void {}
-
-    /// Returns the positionX at a given time
-    private static getPositionX(x: number, elapsedTime: number) {
-        return x + Math.sin(elapsedTime * 0.002) * 50;
+    update(dt: number): void {
+        this.elapsedTime += dt;
+        this.y = Task.getPositionX(this.y, this.elapsedTime, this.offset);
     }
 
-    private getTileCenter(tileId: number) {
-        return this.game.currentWidth * (0.333 * tileId - 0.166);
+    /// Returns the positionX at a given time
+    private static getPositionX(x: number, elapsedTime: number, offset: number) {
+        return x + Math.sin(elapsedTime * 0.005 + offset) * 3;
     }
 
     static createRandom(game: Game) {
