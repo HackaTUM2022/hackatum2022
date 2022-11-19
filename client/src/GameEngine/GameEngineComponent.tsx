@@ -26,7 +26,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
             gameOverScore: undefined,
             score: 0,
             days: 1,
-            money: 0,
+            money: 100,
         };
         this.serverId = props.serverId;
     }

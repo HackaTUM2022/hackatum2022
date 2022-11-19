@@ -167,7 +167,7 @@ const newDay = async (req, res) => {
 
     res.status(200).send({
         // Extract the day type from the request
-        "consumption": generateDailyConsumption(req.body.isWeekend),
+        "consumption": generateDailyConsumption(req.query.isWeekend),
         "production": generateDailyProduction(weather),
         "weather": weather,
     })

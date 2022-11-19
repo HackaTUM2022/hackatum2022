@@ -8,19 +8,25 @@ import { Task } from "./Entities/task";
 import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
 import { DaySeparator } from "./Entities/daySeparator";
+import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     public entities: Entity[] = [];
     private gui: Entity[] = [];
+    private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
 
     private lastUpdate: number | undefined;
 
     private player: Player;
     private scoreboard = new Scoreboard(this);
-    private time: Time;
+    public time: Time;
+    private money: number;
+    private dayConsumption: [number] = [0];
+    private dayProduction: [number] = [0];
+    private dayWeather: [number] = [0];
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -47,6 +53,7 @@ export class Game {
 
         this.gameEvents = new GameEventController();
         this.time = new Time(10000);
+        this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
 
         this.initAssets();
@@ -197,11 +204,57 @@ export class Game {
     onDayStart() {
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
         console.log(this.time.getDaysCount());
+
         this.tasks = [];
         this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
         this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
         this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
         this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
         // this.gui.push(Task.createRandom(this));
+
+        this.networkInterface.getNewDay().then((data) => {
+            this.dayConsumption = data.consumption.map((value: any) => value[1]);
+            this.dayProduction = data.production.map((value: any) => value[1]);
+            this.dayWeather = data.weather;
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    onTaskPlaced(hour: number) {
+        const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
+        console.log("[HAMUDI] Task placed at " + hour + " with money " + this.money + " and energy delta: " + energyDelta);
+        if (energyDelta > 0) {
+            this.networkInterface.addOrder({
+                user: "test", // TODO: Get user from login
+                price: 10, // TODO: decide on price
+                side: "sell",
+                security: "solar",
+                qty: energyDelta * 5, // TODO: decide on qty
+            }).then((data) => {
+                // log here maybe
+            }).catch((err) => {
+                console.log(err);
+            });
+        } else if (energyDelta < 0) {
+            this.networkInterface.addOrder({
+                user: "test", // TODO: Get user from login
+                price: 10, // TODO: decide on price
+                side: "buy",
+                security: "coal",
+                qty: energyDelta * 5, // TODO: decide on qty
+            }).then((data) => {
+                // log here maybe
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
+        
+        this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+        console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
+        
+
+        this.gameEvents.onMoneyChange.next(this.money);
+        console.log("[HAMUDI] Money is now " + this.money);
     }
 }

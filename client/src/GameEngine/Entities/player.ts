@@ -42,21 +42,29 @@ export class Player implements Entity {
 
         if (this.firstTaskPose(this.display) && !this.game.tasks[0].selected) {
             // console.log("FIRST");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
             this.setSelectedPosition(this.game.tasks[0], 0, this.display);
         }
 
         if (this.secondTaskPose(this.display) && !this.game.tasks[1].selected) {
             // console.log("SECOND");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
             this.setSelectedPosition(this.game.tasks[1], 1, this.display);
         }
 
         if (this.thirdTaskPose(this.display) && !this.game.tasks[2].selected) {
             // console.log("THIRD");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
             this.setSelectedPosition(this.game.tasks[2], 2, this.display);
         }
 
         if (this.fourthTaskPose(this.display) && !this.game.tasks[3].selected) {
             // console.log("FOURTH");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
             this.setSelectedPosition(this.game.tasks[3], 3, this.display);
         }
     }

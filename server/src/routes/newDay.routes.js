@@ -7,7 +7,7 @@ import {
 const router = Router();
 
 // Return a discrete consumption list for a given day (24h)
-router.post(
+router.get(
     '/',
     newDay,
 );
