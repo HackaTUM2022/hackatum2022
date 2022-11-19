@@ -15,12 +15,14 @@ services:
     depends_on:
       - mongo
     env_file: ./server/.env
+    ports:
+      - "8080:8080"
     environment:
       NODE_ENV: development
-      VIRTUAL_HOST: api.hackatum.zagar.dev
-      VIRTUAL_PORT: 8080
-      LETSENCRYPT_HOST: api.hackatum.zagar.dev
-      LETSENCRYPT_EMAIL: p@zagar.dev
+      # VIRTUAL_HOST: api.hackatum.zagar.dev
+      # VIRTUAL_PORT: 8080
+      # LETSENCRYPT_HOST: api.hackatum.zagar.dev
+      # LETSENCRYPT_EMAIL: p@zagar.dev
     networks:
       - hackatum-network
 
