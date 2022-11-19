@@ -42,18 +42,27 @@ export class Player implements Entity {
 
         if (this.firstTaskPose(this.display)) {
             // console.log("FIRST");
+            
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
         }
 
         if (this.secondTaskPose(this.display)) {
             // console.log("SECOND");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
         }
 
         if (this.thirdTaskPose(this.display)) {
             // console.log("THIRD");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
         }
 
         if (this.fourthTaskPose(this.display)) {
             // console.log("FOURTH");
+            const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
+            this.game.onTaskPlaced(hour);
         }
     }
 

@@ -21,7 +21,7 @@ export class Game {
 
     private player: Player;
     private scoreboard = new Scoreboard(this);
-    private time: Time;
+    public time: Time;
     private money: number;
     private dayConsumption: [number] = [0];
     private dayProduction: [number] = [0];
@@ -214,7 +214,11 @@ export class Game {
                 side: "sell",
                 security: "solar",
                 qty: energyDelta * 5, // TODO: decide on qty
-            })
+            }).then((data) => {
+                // log here maybe
+            }).catch((err) => {
+                console.log(err);
+            });
         } else if (energyDelta < 0) {
             this.networkInterface.addOrder({
                 user: "test", // TODO: Get user from login
@@ -222,7 +226,11 @@ export class Game {
                 side: "buy",
                 security: "coal",
                 qty: energyDelta * 5, // TODO: decide on qty
-            })
+            }).then((data) => {
+                // log here maybe
+            }).catch((err) => {
+                console.log(err);
+            });
         }
         this.money += energyDelta * 10 * 5; // * price * scale factor
 
