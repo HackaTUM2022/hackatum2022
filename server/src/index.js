@@ -35,8 +35,8 @@ app.use('/games', gamesRouter);
 
 app.use('/newDay', newDayRouter);
 
-app.listen(PORT, function () {
-  console.log(`Server Listening on ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server Listening on ${PORT}`);
 });
 
 export default app;
