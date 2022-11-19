@@ -14,8 +14,12 @@ export class Task implements Entity {
         "bitcoin",
     ];
 
-    public width = 64;
-    public height = 64;
+    private durations = [2, 8, 3, 2, 2, 5, 4];
+
+    public width: number = 64;
+    public height: number = 64;
+    public selected: boolean;
+
     id = uuid();
     name: string;
     game: Game;
@@ -31,13 +35,24 @@ export class Task implements Entity {
         this.name = name;
         this.game = game;
         this.offset = Math.random() * 2;
+        this.selected = false;
+    }
+
+    getSelected() {
+        return this.selected;
+    }
+
+    getDuration(index: number) {
+        return this.durations[index];
     }
 
     render(display: Display): void {
+        if (this.selected) return;
         display.drawImage(this.x, this.y, this.width, this.height, "actions/" + this.name + ".png");
     }
 
     update(dt: number): void {
+        if (this.selected) return;
         this.elapsedTime += dt;
         this.y = Task.getPositionX(this.y, this.elapsedTime, this.offset);
     }

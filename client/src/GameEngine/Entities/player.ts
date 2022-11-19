@@ -40,20 +40,24 @@ export class Player implements Entity {
 
         if (this.game.isGamePaused) return;
 
-        if (this.firstTaskPose(this.display)) {
+        if (this.firstTaskPose(this.display) && !this.game.tasks[0].selected) {
             // console.log("FIRST");
+            this.setSelectedPosition(this.game.tasks[0], 0, this.display);
         }
 
-        if (this.secondTaskPose(this.display)) {
+        if (this.secondTaskPose(this.display) && !this.game.tasks[1].selected) {
             // console.log("SECOND");
+            this.setSelectedPosition(this.game.tasks[1], 1, this.display);
         }
 
-        if (this.thirdTaskPose(this.display)) {
+        if (this.thirdTaskPose(this.display) && !this.game.tasks[2].selected) {
             // console.log("THIRD");
+            this.setSelectedPosition(this.game.tasks[2], 2, this.display);
         }
 
-        if (this.fourthTaskPose(this.display)) {
+        if (this.fourthTaskPose(this.display) && !this.game.tasks[3].selected) {
             // console.log("FOURTH");
+            this.setSelectedPosition(this.game.tasks[3], 3, this.display);
         }
     }
 
@@ -94,6 +98,12 @@ export class Player implements Entity {
     }
 
     handleInput(controller: Controller) {}
+
+    setSelectedPosition(task: Task, index: number, display: Display) {
+        const time = this.game.getTime();
+        const duration = task.getDuration(index);
+        task.selected = true;
+    }
 
     playerTouchesTask(task: Task, display: Display) {
         const playerPositionLandmarks = getPlayerPostionData().landmarks;
