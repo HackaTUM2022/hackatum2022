@@ -77,6 +77,7 @@ export class Player implements Entity {
         const elbows = playerPositionLandmarks.elbows;
         const wrists = playerPositionLandmarks.wrists;
         const hips = playerPositionLandmarks.hips;
+        const indexFingers = playerPositionLandmarks.index_finger;
 
         const drawLine = (
             startPoint: { x: number; y: number },
@@ -88,6 +89,15 @@ export class Player implements Entity {
                 display.relXToAbs(endPoint.x),
                 display.relYToAbs(endPoint.y),
                 "#00FF00"
+            );
+        };
+
+        const drawCircle = (point: { x: number; y: number }) => {
+            display.drawCircle(
+                display.relXToAbs(point.x),
+                display.relYToAbs(point.y),
+                20,
+                "#FF2E2E"
             );
         };
 
@@ -103,6 +113,8 @@ export class Player implements Entity {
         drawLine(shoulders.left, hips.left);
         drawLine(shoulders.right, hips.right);
         drawLine(hips.left, hips.right);
+        drawCircle(indexFingers.left);
+        drawCircle(indexFingers.right);
     }
 
     handleInput(controller: Controller) {}
@@ -115,21 +127,21 @@ export class Player implements Entity {
 
     playerTouchesTask(task: Task, display: Display) {
         const playerPositionLandmarks = getPlayerPostionData().landmarks;
-        const wrists = playerPositionLandmarks.wrists;
+        const indexFingers = playerPositionLandmarks.index_finger;
 
         const correctLeftY =
-            display.relYToAbs(wrists.left.y) >= task.y &&
-            display.relYToAbs(wrists.left.y) <= task.y + task.height;
+            display.relYToAbs(indexFingers.left.y) >= task.y &&
+            display.relYToAbs(indexFingers.left.y) <= task.y + task.height;
         const correctLeftX =
-            task.x <= display.relXToAbs(wrists.left.x) &&
-            display.relXToAbs(wrists.left.x) <= task.x + task.width;
+            task.x <= display.relXToAbs(indexFingers.left.x) &&
+            display.relXToAbs(indexFingers.left.x) <= task.x + task.width;
 
         const correctRightY =
-            display.relYToAbs(wrists.right.y) >= task.y &&
-            display.relYToAbs(wrists.right.y) <= task.y + task.height;
+            display.relYToAbs(indexFingers.right.y) >= task.y &&
+            display.relYToAbs(indexFingers.right.y) <= task.y + task.height;
         const correctRightX =
-            task.x <= display.relXToAbs(wrists.right.x) &&
-            display.relXToAbs(wrists.right.x) <= task.x + task.width;
+            task.x <= display.relXToAbs(indexFingers.right.x) &&
+            display.relXToAbs(indexFingers.right.x) <= task.x + task.width;
 
         return (correctLeftX && correctLeftY) || (correctRightY && correctRightX);
     }

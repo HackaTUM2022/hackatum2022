@@ -46,6 +46,16 @@ export interface PlayerPostionData {
                 y: number;
             };
         };
+        index_finger: {
+            left: {
+                x: number;
+                y: number;
+            };
+            right: {
+                x: number;
+                y: number;
+            };
+        };
     };
 }
 
@@ -97,6 +107,16 @@ export function getPlayerPostionData(): PlayerPostionData {
                 right: {
                     x: 1 - poseLandmarks?.[24]?.x,
                     y: poseLandmarks?.[24]?.y,
+                },
+            },
+            index_finger: {
+                left: {
+                    x: 1 - poseLandmarks?.[19]?.x,
+                    y: poseLandmarks?.[19]?.y,
+                },
+                right: {
+                    x: 1 - poseLandmarks?.[20]?.x,
+                    y: poseLandmarks?.[20]?.y,
                 },
             },
         },
