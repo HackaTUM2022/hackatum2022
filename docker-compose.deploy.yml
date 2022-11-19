@@ -10,7 +10,6 @@ services:
     # command: npm run start
     restart: unless-stopped
     volumes:
-      - ./server/:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - mongo
@@ -45,7 +44,6 @@ services:
     container_name: hackatum-client
     restart: unless-stopped
     volumes:
-      - ./client/:/usr/app
       - /usr/app/node_modules
     depends_on:
       - server
