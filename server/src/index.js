@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import userRouter from '././routes/user.routes.js';
+import consumptionRouter from '././routes/consumption.routes.js';
 import './config/mongodb.config.js';
 import cors from 'cors';
 
@@ -27,6 +28,8 @@ app.get('/', function (req, res) {
 });
 
 app.use('/user', userRouter);
+
+app.use('/consumption', consumptionRouter);
 
 app.listen(PORT, function () {
   console.log(`Server Listening on ${PORT}`);
