@@ -47,6 +47,8 @@ services:
       - /usr/app/node_modules
     depends_on:
       - server
+    ports:
+      - "80:3000"
     environment:
       NODE_ENV: development
       VIRTUAL_HOST: hackatum.zagar.dev
