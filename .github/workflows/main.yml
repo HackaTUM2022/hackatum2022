@@ -85,7 +85,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
-          source: "client/.env,server/.env,docker-compose.deploy.yml"
+          source: "client/.env,server/.env,docker-compose.deploy.yml,config/nginx.conf"
           target: "/home/ubuntu/hackatum/"
 
       - name: Deploy

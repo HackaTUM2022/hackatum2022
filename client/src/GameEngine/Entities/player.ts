@@ -2,12 +2,7 @@ import { Entity } from "./entity";
 import { Display } from "../display";
 import { Controller } from "../controller";
 import { v4 as uuid } from "uuid";
-import { Tile } from "./tile";
 import { Game } from "../game";
-import { EventManager } from "../Events/eventManager";
-import { EntityEnterTileEvent } from "../Events/entityEnterTileEvent";
-import { EntityLeaveTileEvent } from "../Events/entityLeaveTileEvent";
-import { TrashItem } from "./trash-item";
 import { getPlayerPostionData } from "../handsfreeController";
 
 export class Player implements Entity {
@@ -18,7 +13,6 @@ export class Player implements Entity {
     game: Game;
     width = 64;
     height = 64;
-    currentTile: Tile | undefined;
     /// If the player is under the y threshold
     isInExercise = false;
 
@@ -39,57 +33,9 @@ export class Player implements Entity {
         this.y =
             convertRelativePos(handsfreeY, this.game.cameraCanvasHeight, this.height / 2) || this.y;
 
-        // Get the current tile
-        let oldTile = this.currentTile;
-        this.currentTile = this.game.getTileByPos(this.x);
-        if (oldTile !== this.currentTile) {
-            if (oldTile) {
-                EventManager.OnEntityLeaveTileEvent(new EntityLeaveTileEvent(oldTile, this));
-            }
-            EventManager.OnEntityEnterTileEvent(new EntityEnterTileEvent(this.currentTile, this));
-        }
 
         if (this.game.isGamePaused) return;
 
-        if (handsfreeY > 0.6 && !this.isInExercise) {
-            this.isInExercise = true;
-            let activeTrash = this.game.getActiveTrashIcon();
-            if (activeTrash != null && activeTrash.category === this.currentTile.num) {
-                // Put in the right basket
-                this.game.addPoints(100);
-                activeTrash.active = false;
-                this.game.removeEntity(activeTrash.id);
-                if (!this.game.isMultiplayer())
-                    this.game.addEntity(TrashItem.createRandom(this.game));
-                if (this.game.isMultiplayer()) {
-                    if (this.game.multiplayerController.getMultiplayerData().isAlive) {
-                        // Other player is alive: Then we send the item over to the other player
-                        this.game.requestNewTrashItemForEnemy(
-                            activeTrash.category,
-                            activeTrash.name
-                        );
-                    } else {
-                        // Enemy dead, then we get a new item
-                        this.game.addEntity(TrashItem.createRandom(this.game));
-                    }
-                }
-            } else if (activeTrash != null) {
-                // Put in the wrong basket
-                this.game.subtractLife();
-                activeTrash.active = false;
-                this.game.removeEntity(activeTrash.id);
-                if (!this.game.isGameOver) {
-                    if (!this.game.isMultiplayer() && this.game.amountOfTrashItems === 0) {
-                        this.game.addEntity(TrashItem.createRandom(this.game));
-                    }
-                    if (this.game.isMultiplayer() && this.game.playerTrashItems.length === 0) {
-                        this.game.addEntity(TrashItem.createRandom(this.game));
-                    }
-                }
-            }
-        } else if (handsfreeY < 0.4 && this.isInExercise) {
-            this.isInExercise = false;
-        }
     }
 
     render(display: Display) {

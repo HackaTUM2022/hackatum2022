@@ -18,7 +18,7 @@ services:
       - mongo
     env_file: ./server/.env
     environment:
-      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
     networks:
       - hackatum-network
 
@@ -49,7 +49,7 @@ services:
     ports:
       - "80:3000"
     environment:
-      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
     networks:
       - hackatum-network
 

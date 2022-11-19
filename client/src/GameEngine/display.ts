@@ -1,5 +1,5 @@
 import { ImageLoader } from "./imageloader";
-import { TrashItem } from "./Entities/trash-item";
+import { Task } from "./Entities/task";
 
 export class Display {
     buffer: CanvasRenderingContext2D;
@@ -32,10 +32,8 @@ export class Display {
         ) as unknown as CanvasImageSource;
         // @ts-ignore
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
-        let toLoad = TrashItem.getImagesToLoad();
-        toLoad.push("heart.png");
-        toLoad.push("red.png");
-        toLoad.push("green.png");
+
+        let toLoad = Task.getImagesToLoad();
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;

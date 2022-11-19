@@ -1,5 +1,5 @@
 export class Engine {
-    constructor(time_step, render, update) {
+    constructor(time_step, render, update, onStart) {
         this.animation_frame_request = undefined;
         this.time = 0;
         this.time_step = time_step; //1000 / 30 = 30 fps
@@ -11,6 +11,8 @@ export class Engine {
         this.update = update;
 
         this.startRun = (time_stamp) => {
+            if(onStart !== undefined)
+                onStart(time_stamp);
             this.run(time_stamp);
         };
     }
@@ -47,7 +49,7 @@ export class Engine {
             this.render(time_stamp);
         }
 
-        this.animation_frame_request = window.requestAnimationFrame(this.startRun);
+        this.animation_frame_request = window.requestAnimationFrame((start_time) => this.run(start_time));
     }
 
     isRunning() {

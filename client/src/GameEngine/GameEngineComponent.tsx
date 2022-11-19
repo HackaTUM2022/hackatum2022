@@ -32,16 +32,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
         return (
             <div className="game-engine-component">
                 <canvas></canvas>
-                <div className="frame">
-                    <div className="sides"></div>
-                    <div className="bottom" style={{ height: this.state.bottomHeight }}>
-                        <div className="labels">
-                            <p>Residual Waste</p>
-                            <p>Yellow Bin</p>
-                            <p>Organic Garbage</p>
-                        </div>
-                    </div>
-                </div>
+                
                 {this.state.gameOverScore !== undefined && (
                     <GameOverPopUp
                         score={this.state.gameOverScore}
