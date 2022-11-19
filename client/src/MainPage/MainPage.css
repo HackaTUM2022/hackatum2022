@@ -1,0 +1,167 @@
+.mainPageContainer {
+    background-image: url(../images/undraw_yoga_248n.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 40em;
+    /* padding: 1m; */
+    /* height: 100%; */
+}
+
+.mainPageBody {
+    /* height: 89.8vh; */
+    display: flex;
+    font-family: "Comfortaa", cursive;
+    width: 100%;
+    height: 100%;
+}
+
+.leftBodyNameInput {
+    /* height: 100%; */
+    border-radius: 5px;
+    font-size: 13px;
+    height: 1.8em;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 5px;
+}
+
+.leftBody {
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 49%;
+    padding-right: 2em;
+    text-align: right;
+    font-size: large;
+    font-family: "Comfortaa", cursive;
+}
+
+.button {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background-color: #ffa726;
+    font-size: medium;
+    font-weight: bolder;
+    font-family: "Comfortaa", cursive;
+    border: none;
+    padding: 10px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.5s;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: "\00bb";
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover:enabled span {
+    padding-right: 25px;
+}
+
+.button:hover:enabled span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.button:disabled {
+    background-color: hsl(32deg, 100%, 82%)
+}
+
+.rightBody {
+    width: 49%;
+    padding-left: 2em;
+    text-align: left;
+    font-size: large;
+    font-family: "Comfortaa", cursive;
+}
+
+.rightBodyButtons > button {
+    display: block;
+    margin-bottom: 1em;
+}
+
+.flier {
+    pointer-events: none;
+}
+
+.flier > * {
+    /* Adjust animation duration to change the element’s speed */
+    animation: fly 50s linear infinite;
+    pointer-events: none !important;
+    top: 0;
+    left: 0;
+    transform: translateX(-120%) translateY(-120%) rotateZ(0);
+    position: fixed;
+    animation-delay: 1s;
+    z-index: 999999;
+}
+
+/* Keyframe values control where the element will begin
+    and end its trajectory across the screen. Each rule
+    represents a path the element follows across the screen. */
+
+@keyframes fly {
+    98.001%,
+    0% {
+        display: block;
+        transform: translateX(-200%) translateY(100vh) rotateZ(0deg);
+    }
+
+    15% {
+        transform: translateX(100vw) translateY(-100%) rotateZ(180deg);
+    }
+
+    15.001%,
+    18% {
+        transform: translateX(100vw) translateY(-30%) rotateZ(0deg);
+    }
+
+    40% {
+        transform: translateX(-200%) translateY(3vh) rotateZ(-180deg);
+    }
+
+    40.001%,
+    43% {
+        transform: translateX(-200%) translateY(-100%) rotateZ(-180deg);
+    }
+
+    65% {
+        transform: translateX(100vw) translateY(50vh) rotateZ(0deg);
+    }
+
+    65.001%,
+    68% {
+        transform: translateX(20vw) translateY(-200%) rotateZ(180deg);
+    }
+
+    95% {
+        transform: translateX(10vw) translateY(100vh) rotateZ(0deg);
+    }
+}
+
+.mainPageWabyPicture {
+    position: relative;
+    bottom: 0;
+    z-index: -10;
+    transform: rotate(0deg);
+    transition: 0.3s;
+}
+
+.wavePathVar {
+    transform: translate(0, 0px);
+    opacity: 1;
+}

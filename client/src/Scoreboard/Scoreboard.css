@@ -1,0 +1,40 @@
+.scoreBoardContainer {
+    width: 100%;
+    height: 100%;
+    /* display: block; */
+    /* align-items: center; */
+}
+
+.cantConnectToDataBase {
+    color: red;
+    font-style: italic;
+}
+
+.trophyImage {
+    width: 70px;
+    margin: auto auto 0;
+}
+
+.trophyImageContainer {
+    display: flex;
+    align-content: center;
+    width: 100%;
+    padding-top: 0.5em;
+}
+
+.fancyScoreboardShape {
+    /* margin: 0;
+    width: 100%;
+    height: 100%;
+    bottom: 300px; */
+    transform: rotate(0deg);
+    transition: 0.3s;
+    position: fixed;
+    bottom: 0;
+    z-index: -10;
+}
+
+.wavePath {
+    transform: translate(0, 0px);
+    opacity: 1;
+}

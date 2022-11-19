@@ -1,0 +1,55 @@
+.headerContainer {
+    font-family: "Times New Roman", Times, serif !important;
+    /* background-color: #ffa726; */
+    background-image: linear-gradient(to top, #ffb955, #fbaf45, #f8a433, #f49920, #f08e00);
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    line-height: normal;
+    align-items: center;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    height: 4.5em;
+}
+
+.headerLogo {
+    height: 100%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.headerNav {
+    padding-right: 1em;
+    font-size: 1.2em;
+    width: 100%;
+    text-align: right;
+}
+
+.headerTeamName {
+    font-size: 1.5em;
+
+    font-weight: bolder;
+    text-align: left;
+    width: 100%;
+    padding: 0.5em;
+}
+
+.headerHome {
+    color: white;
+    font-weight: normal;
+    padding: 0.4em;
+}
+
+.headerHome:link {
+    text-decoration: none;
+}
+
+.headerHome:visited {
+    text-decoration: none;
+}
+
+.headerHome:hover {
+    text-decoration: underline;
+}
+
+.headerHome:active {
+    text-decoration: underline;
+}

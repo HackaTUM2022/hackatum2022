@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+
+import MainPage from "./MainPage/MainPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { GameEngineComponent } from "./GameEngine/GameEngineComponent";
+import { useState } from "react";
+import Scoreboard from "./Scoreboard/Scoreboard";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [serverId, setServerId] = useState(undefined);
+    return (
+        <Router>
+            <Routes>
+                <Route
+                    exact
+                    path="/"
+                    element={<MainPage serverId={serverId} setServerId={setServerId} />}
+                />
+                <Route exact path="/game" element={<GameEngineComponent />} />
+                <Route
+                    exact
+                    path="/multiplayer"
+                    element={<GameEngineComponent serverId={serverId} />}
+                />
+                <Route exact path="/scoreboard" element={<Scoreboard />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

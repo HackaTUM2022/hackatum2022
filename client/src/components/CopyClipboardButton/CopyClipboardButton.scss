@@ -1,0 +1,22 @@
+.CopyClipboardButon__container {
+    margin-bottom: 20px;
+
+    span {
+        margin-left: 5px;
+    }
+
+    .CopyClipboardButon__button {
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+        span {
+            line-height: 2em;
+            height: 100%;
+            text-align: center;
+        }
+        img {
+            height: 1.2em;
+            margin-left: 2px;
+        }
+    }
+}
