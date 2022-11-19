@@ -17,5 +17,5 @@ COPY . .
 # Exports
 EXPOSE 8080
 
-# CMD ["npm","start"]
-CMD ["ls","-la"]
+CMD ["npm","start"]
+# CMD ["ls","-la"]

@@ -16,7 +16,7 @@ export class DaySeparator implements Entity {
 
     render(display: Display): void {
         display.drawRectangle(
-            display.cameraCanvasWidth * this.time.getCurrentTimeInPercentOfDay(),
+            display.getXPositionFromTime(this.time.getCurrentTimeInPercentOfDay() * 24),
             0,
             20,
             display.cameraCanvasHeight,
