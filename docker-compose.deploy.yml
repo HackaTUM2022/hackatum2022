@@ -58,58 +58,58 @@ services:
     networks:
       - hackatum-network
 
-  # nginx:
-  #   image: nginx:mainline-alpine
-  #   container_name: nginx
-  #   restart: unless-stopped
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
-  #     - ./certs:/etc/ssl/certs:ro
-  #   depends_on:
-  #     - client
-  #     - mongo
-  #     - server
-  #   networks:
-  #     - hackatum-network
-
-  nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
-    container_name: nginx-proxy
+  nginx:
+    image: nginx:mainline-alpine
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-    environment:
-      ENABLE_IPV6: true
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs
-      - ./vhost:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
+      - ./config/nginx.conf:/etc/nginx/conf.d/nginx.conf:ro
+      - ./certs:/etc/ssl/certs:ro
     depends_on:
-      - server
       - client
+      - mongo
+      - server
     networks:
       - hackatum-network
+      
+  # nginx-proxy:
+  #   image: jwilder/nginx-proxy:alpine
+  #   container_name: nginx-proxy
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   environment:
+  #     ENABLE_IPV6: true
+  #   volumes:
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #     - ./certs:/etc/nginx/certs
+  #     - ./vhost:/etc/nginx/vhost.d
+  #     - ./html:/usr/share/nginx/html
+  #   depends_on:
+  #     - server
+  #     - client
+  #   networks:
+  #     - hackatum-network
 
-  nginx-proxy-acme:
-    image: nginxproxy/acme-companion
-    container_name: nginx-proxy-acme
-    restart: unless-stopped
-    environment:
-      - DEFAULT_EMAIL=p@zagar.dev
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./acme:/etc/acme.sh
-    volumes_from:
-      - nginx-proxy:rw
-    depends_on:
-      - nginx-proxy
-    networks:
-      - hackatum-network
+  # nginx-proxy-acme:
+  #   image: nginxproxy/acme-companion
+  #   container_name: nginx-proxy-acme
+  #   restart: unless-stopped
+  #   environment:
+  #     - DEFAULT_EMAIL=p@zagar.dev
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./acme:/etc/acme.sh
+  #   volumes_from:
+  #     - nginx-proxy:rw
+  #   depends_on:
+  #     - nginx-proxy
+  #   networks:
+  #     - hackatum-network
 
 networks:
   hackatum-network:
