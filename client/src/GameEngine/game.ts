@@ -251,7 +251,12 @@ export class Game {
         }
         
         this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+        // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
+
+        if (this.money <= 0) {
+            this.onGameOver();
+        }
         
 
         this.gameEvents.onMoneyChange.next(this.money);
