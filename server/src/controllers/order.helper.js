@@ -4,6 +4,18 @@
 /* eslint-disable max-len */
 import { Order, CONSTANTS, Match } from '../models/index.js';
 
+const addMockOrder = async (order) => {
+    const newOrder = await Order.create({
+        user: 'SWM',
+        security: order.security,
+        qty: order.qty,
+        price: order.price,
+        side: (order.side === CONSTANTS.SELL) ? CONSTANTS.BUY : CONSTANTS.SELL,
+    });
+
+    return newOrder;
+};
+
 const addOrder = async (req, res) => {
     let newOrder;
 
@@ -33,6 +45,11 @@ const addOrder = async (req, res) => {
         );
     } else {
         newOrder = await Order.create(req.body);
+    }
+
+    // Add mock order to simulate energy market
+    if (req.query.mockEnergyMarket === 'true') {
+        await addMockOrder(newOrder);
     }
 
     res.status(200).send(
