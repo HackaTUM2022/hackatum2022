@@ -197,8 +197,8 @@ export class Game {
         console.log(this.time.getDaysCount());
 
         this.networkInterface.getNewDay().then((data) => {
-            this.dayConsumption = data.consumption;
-            this.dayProduction = data.production;
+            this.dayConsumption = data.consumption.map((value: any) => value[1]);
+            this.dayProduction = data.production.map((value: any) => value[1]);
             this.dayWeather = data.weather;
         }).catch((err) => {
             console.log(err);
@@ -207,6 +207,7 @@ export class Game {
 
     onTaskPlaced(hour: number) {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
+        console.log("[HAMUDI] Task placed at " + hour + " with money " + this.money + " and energy delta: " + energyDelta);
         if (energyDelta > 0) {
             this.networkInterface.addOrder({
                 user: "test", // TODO: Get user from login
@@ -232,8 +233,12 @@ export class Game {
                 console.log(err);
             });
         }
-        this.money += energyDelta * 10 * 5; // * price * scale factor
+        
+        this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+        console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
+        
 
         this.gameEvents.onMoneyChange.next(this.money);
+        console.log("[HAMUDI] Money is now " + this.money);
     }
 }
