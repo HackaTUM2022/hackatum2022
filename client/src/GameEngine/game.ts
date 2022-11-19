@@ -22,6 +22,7 @@ export class Game {
     private player: Player;
     private scoreboard = new Scoreboard(this);
     private time: Time;
+    private money: number;
     private dayConsumption: [number] = [0];
     private dayProduction: [number] = [0];
     private dayWeather: [number] = [0];
@@ -51,6 +52,7 @@ export class Game {
 
         this.gameEvents = new GameEventController();
         this.time = new Time(10000);
+        this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
 
         this.initAssets();
@@ -201,5 +203,29 @@ export class Game {
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    onTaskPlaced(hour: number) {
+        const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
+        if (energyDelta > 0) {
+            this.networkInterface.addOrder({
+                user: "test", // TODO: Get user from login
+                price: 10, // TODO: decide on price
+                side: "sell",
+                security: "solar",
+                qty: energyDelta * 5, // TODO: decide on qty
+            })
+        } else if (energyDelta < 0) {
+            this.networkInterface.addOrder({
+                user: "test", // TODO: Get user from login
+                price: 10, // TODO: decide on price
+                side: "buy",
+                security: "coal",
+                qty: energyDelta * 5, // TODO: decide on qty
+            })
+        }
+        this.money += energyDelta * 10 * 5; // * price * scale factor
+
+        this.gameEvents.onMoneyChange.next(this.money);
     }
 }
