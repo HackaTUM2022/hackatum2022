@@ -18,7 +18,8 @@ export class TrashGame {
         this.engine = new Engine(
             1000 / fps,
             this.renderGame.bind(this),
-            this.updateGame.bind(this)
+            this.updateGame.bind(this),
+            this.onStart.bind(this),
         );
 
         window.addEventListener("resize", this.resize.bind(this));
@@ -27,6 +28,11 @@ export class TrashGame {
 
         this.resize();
         this.engine.start();
+    }
+
+    onStart(time_stamp) {
+        if(this.game !== undefined) 
+            this.game.onStart(time_stamp);
     }
 
     // Gets called before render, updates things like position of entities

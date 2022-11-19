@@ -5,6 +5,8 @@ import { Display } from "./display";
 import { Scoreboard } from "./Entities/scoreboard";
 import { GameEventController } from "./Events/gameEventController";
 import { Task } from "./Entities/task";
+import { getPlayerPostionData } from "./handsfreeController";
+import { Time } from "./time";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -15,6 +17,7 @@ export class Game {
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
+    private time: Time;
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -40,8 +43,13 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.gameEvents = new GameEventController();
+        this.time = new Time(10000);
 
         this.initAssets();
+    }
+
+    onStart(time_stamp: number): void {
+        this.time.setStartTime(time_stamp);
     }
 
     initAssets() {
@@ -78,6 +86,8 @@ export class Game {
                 entity.update(dt);
             }
         }
+        let currentTime = this.time.getCurrentTimeInPercentOfDay(time_stamp);
+        console.log(currentTime);
     }
 
     render(display: Display) {
