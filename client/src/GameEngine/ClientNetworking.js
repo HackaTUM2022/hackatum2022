@@ -1,11 +1,6 @@
 import axios from "axios";
 
-class ClientNetworking {
-    constructor() {
-        this.username = "";
-        this.dayCounter = 0;
-    }
-
+export class ClientNetworking {
     async startGame(username) {
         try {
             const { data } = await axios.post(
@@ -53,7 +48,7 @@ class ClientNetworking {
         order['request'] = 'add';
         try {
             const { data } = await axios.post(
-                `http://localhost:8080/orders`,
+                `http://localhost:8080/orders?mockEnergyMarket=true`,
                 order
             );
     
@@ -105,12 +100,10 @@ class ClientNetworking {
         }
     }
     
-    async getNewDay() {
-        try {
-            this.dayCounter++;
-            
+    async getNewDay(dayCounter) {
+        try {           
             const { data } = await axios.get(
-                `http://localhost:8080/newDay?isWeekend=${(this.dayCounter % 6 === 0) || (this.dayCounter % 7 === 0)}`,
+                `http://localhost:8080/newDay?isWeekend=${(dayCounter % 6 === 0) || (dayCounter % 7 === 0)}`,
             );
     
             return data;
@@ -120,16 +113,3 @@ class ClientNetworking {
         }
     }
 }
-
-
-
-export {
-    startGame,
-    updateGame,
-    getGames,
-    addOrder,
-    deleteOrder,
-    getOrders,
-    getMatches,
-    getNewDay,
-};

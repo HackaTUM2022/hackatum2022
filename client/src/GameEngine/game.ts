@@ -8,11 +8,13 @@ import { Task } from "./Entities/task";
 import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
 import { DaySeparator } from "./Entities/daySeparator";
+import { ClientNetworking } from "./ClientNetworking";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     public entities: Entity[] = [];
     private gui: Entity[] = [];
+    private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
 
     private lastUpdate: number | undefined;
@@ -20,6 +22,9 @@ export class Game {
     private player: Player;
     private scoreboard = new Scoreboard(this);
     private time: Time;
+    private dayConsumption: [number] = [0];
+    private dayProduction: [number] = [0];
+    private dayWeather: [number] = [0];
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -188,5 +193,13 @@ export class Game {
     onDayStart() {
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
         console.log(this.time.getDaysCount());
+
+        this.networkInterface.getNewDay().then((data) => {
+            this.dayConsumption = data.consumption;
+            this.dayProduction = data.production;
+            this.dayWeather = data.weather;
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 }
