@@ -14,37 +14,52 @@ export class Task implements Entity {
         "bitcoin",
     ];
 
-    public width = 64;
-    public height = 64;
+    private durations = [2, 8, 3, 2, 2, 5, 4];
+
+    public width: number = 64;
+    public height: number = 64;
+    public selected: boolean;
+
     id = uuid();
     name: string;
     game: Game;
 
     public x = 0;
     public y = 0;
+    private elapsedTime = 0;
+    private offset = 0;
 
     constructor(x: number, y: number, name: string, game: Game) {
         this.x = x;
         this.y = y;
         this.name = name;
         this.game = game;
+        this.offset = Math.random() * 2;
+        this.selected = false;
+    }
+
+    getSelected() {
+        return this.selected;
+    }
+
+    getDuration(index: number) {
+        return this.durations[index];
     }
 
     render(display: Display): void {
-        display.drawCircle(100, 100, 5, "blue");
-
+        if (this.selected) return;
         display.drawImage(this.x, this.y, this.width, this.height, "actions/" + this.name + ".png");
     }
 
-    update(dt: number): void {}
-
-    /// Returns the positionX at a given time
-    private static getPositionX(x: number, elapsedTime: number) {
-        return x + Math.sin(elapsedTime * 0.002) * 50;
+    update(dt: number): void {
+        if (this.selected) return;
+        this.elapsedTime += dt;
+        this.y = Task.getPositionX(this.y, this.elapsedTime, this.offset);
     }
 
-    private getTileCenter(tileId: number) {
-        return this.game.currentWidth * (0.333 * tileId - 0.166);
+    /// Returns the positionX at a given time
+    private static getPositionX(x: number, elapsedTime: number, offset: number) {
+        return x + Math.sin(elapsedTime * 0.005 + offset) * 3;
     }
 
     static createRandom(game: Game) {

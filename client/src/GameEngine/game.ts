@@ -58,8 +58,13 @@ export class Game {
         this.initAssets();
     }
 
+    getTime() {
+        return this.time;
+    }
+
     onStart(time_stamp: number): void {
         this.time.setStartTime(time_stamp);
+        this.onDayStart();
     }
 
     initAssets() {
@@ -69,12 +74,6 @@ export class Game {
 
     initGUI() {
         this.gui = [];
-        this.tasks = [];
-        this.tasks.push(new Task(50, 50, "washing-machine", this));
-        this.tasks.push(new Task(50, 150, "dish-washer", this));
-        this.tasks.push(new Task(50, 250, "working", this));
-        this.tasks.push(new Task(50, 350, "solana", this));
-        // this.gui.push(Task.createRandom(this));
     }
 
     update(time_stamp: number) {
@@ -92,6 +91,10 @@ export class Game {
             // Update all the entities
             for (let entity of this.entities) {
                 entity.update(dt);
+            }
+
+            for (let task of this.tasks) {
+                task.update(dt);
             }
         }
         this.time.update(time_stamp, () => this.onDayStart());
@@ -195,6 +198,13 @@ export class Game {
     onDayStart() {
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
         console.log(this.time.getDaysCount());
+
+        this.tasks = [];
+        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
+        // this.gui.push(Task.createRandom(this));
 
         this.networkInterface.getNewDay().then((data) => {
             this.dayConsumption = data.consumption.map((value: any) => value[1]);
