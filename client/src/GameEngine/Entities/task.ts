@@ -14,14 +14,14 @@ export class Task implements Entity {
         "bitcoin",
     ];
 
-    width = 64;
-    height = 64;
+    public width = 64;
+    public height = 64;
     id = uuid();
     name: string;
     game: Game;
 
-    x = 0;
-    y = 0;
+    public x = 0;
+    public y = 0;
 
     constructor(x: number, y: number, name: string, game: Game) {
         this.x = x;

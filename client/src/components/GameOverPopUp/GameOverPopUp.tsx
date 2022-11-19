@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { sendDataToDatabase } from "../../Scoreboard/serverapi.js";
 interface IProps {
     score: number;
-    adversaryScore: number;
-    isMultiplayer: boolean;
 }
 
 interface IState {
@@ -38,15 +36,7 @@ export class GameOverPopUp extends Component<IProps, IState> {
 
     render() {
         let title;
-        if (!this.props.isMultiplayer) {
-            title = "Game Over";
-        } else {
-            if (this.props.score > this.props.adversaryScore) {
-                title = "You won !!!";
-            } else {
-                title = "Game Over";
-            }
-        }
+        title = "Game Over";
 
         return (
             <div className="container">

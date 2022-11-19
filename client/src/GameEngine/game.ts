@@ -7,15 +7,17 @@ import { GameEventController } from "./Events/gameEventController";
 import { Task } from "./Entities/task";
 import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
+import { DaySeparator } from "./Entities/daySeparator";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
     public entities: Entity[] = [];
     private gui: Entity[] = [];
+    public tasks: Task[] = [];
 
     private lastUpdate: number | undefined;
 
-    private player = new Player(0, 0, this);
+    private player: Player;
     private scoreboard = new Scoreboard(this);
     private time: Time;
 
@@ -44,6 +46,7 @@ export class Game {
 
         this.gameEvents = new GameEventController();
         this.time = new Time(10000);
+        this.player = new Player(0, 0, this, display);
 
         this.initAssets();
     }
@@ -54,18 +57,16 @@ export class Game {
 
     initAssets() {
         this.initGUI();
+        this.addEntity(new DaySeparator(this.time));
     }
 
     initGUI() {
         this.gui = [];
-        this.addEntity(new Task(50, 50, "washing-machine", this));
-
-        this.addEntity(new Task(50, 150, "dish-washer", this));
-
-        this.addEntity(new Task(50, 250, "working", this));
-
-        this.addEntity(new Task(50, 350, "solana", this));
-
+        this.tasks = [];
+        this.tasks.push(new Task(50, 50, "washing-machine", this));
+        this.tasks.push(new Task(50, 150, "dish-washer", this));
+        this.tasks.push(new Task(50, 250, "working", this));
+        this.tasks.push(new Task(50, 350, "solana", this));
         // this.gui.push(Task.createRandom(this));
     }
 
@@ -86,8 +87,7 @@ export class Game {
                 entity.update(dt);
             }
         }
-        let currentTime = this.time.getCurrentTimeInPercentOfDay(time_stamp);
-        console.log(currentTime);
+        this.time.update(time_stamp, () => this.onDayStart());
     }
 
     render(display: Display) {
@@ -101,6 +101,10 @@ export class Game {
 
         for (let gui of this.gui) {
             gui.render(display);
+        }
+
+        for (let task of this.tasks) {
+            task.render(display);
         }
     }
 
@@ -179,5 +183,10 @@ export class Game {
 
     resume() {
         this.isGamePaused = false;
+    }
+
+    onDayStart() {
+        this.gameEvents.onDaysChange.next(this.time.getDaysCount());
+        console.log(this.time.getDaysCount());
     }
 }

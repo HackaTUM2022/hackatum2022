@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
 import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
 import { Scoreboard } from "../components/Scoreboard/Scoreboard";
+import { GameInfo } from "../components/GameInfo/GameInfo";
 
 interface IProps {}
 
@@ -10,7 +11,8 @@ interface IState {
     bottomHeight: string;
     gameOverScore: number | undefined;
     score: number;
-    adversaryScore: number;
+    days: number;
+    money: number;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -23,7 +25,8 @@ export class GameEngineComponent extends Component<IProps, IState> {
             bottomHeight: "60px",
             gameOverScore: undefined,
             score: 0,
-            adversaryScore: 0,
+            days: 1,
+            money: 0,
         };
         this.serverId = props.serverId;
     }
@@ -32,19 +35,12 @@ export class GameEngineComponent extends Component<IProps, IState> {
         return (
             <div className="game-engine-component">
                 <canvas></canvas>
-                
+
                 {this.state.gameOverScore !== undefined && (
-                    <GameOverPopUp
-                        score={this.state.gameOverScore}
-                        isMultiplayer={!!this.serverId}
-                        adversaryScore={this.state.adversaryScore}
-                    />
+                    <GameOverPopUp score={this.state.gameOverScore} />
                 )}
-                <Scoreboard
-                    score={this.state.score}
-                    isMultiplayer={!!this.serverId}
-                    adversaryScore={this.state.adversaryScore}
-                />
+                <Scoreboard score={this.state.score} />
+                <GameInfo days={this.state.days} money={this.state.money} />
             </div>
         );
     }
@@ -59,16 +55,11 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 gameOverScore: score,
             });
         });
-        gameEvents.onScorePoint.subscribe((score) => {
-            this.setState({
-                score: score,
-            });
+        gameEvents.onDaysChange.subscribe((days) => {
+            this.setState({ days: days });
         });
-
-        gameEvents.onEnemyScoreChange.subscribe((score) => {
-            this.setState({
-                adversaryScore: score,
-            });
+        gameEvents.onMoneyChange.subscribe((money) => {
+            this.setState({ money: money });
         });
 
         window.addEventListener("resize", this.updateDimensions.bind(this));
