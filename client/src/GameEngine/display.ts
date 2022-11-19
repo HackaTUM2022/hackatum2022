@@ -144,4 +144,16 @@ export class Display {
 
         this.context.imageSmoothingEnabled = false;
     }
+
+    getDrawableHeight(): number {
+        return Math.min(this.context.canvas.height, this.cameraCanvasHeight);
+    }
+    getDrawableWidth(): number {
+        return Math.min(this.context.canvas.width, this.cameraCanvasWidth);
+    }
+
+    // Converts from time in hours (0 - 24 hours) to x Position on Canvas
+    getXPositionFromTime(time: number): number {
+        return (this.getDrawableWidth() * time) / 24;
+    }
 }
