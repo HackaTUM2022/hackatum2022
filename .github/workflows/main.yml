@@ -67,7 +67,7 @@ jobs:
           file: ./server/Dockerfile
           tags: ${{ env.IMAGE_NAME_SERVER }}
           push: true
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=${{ env.IMAGE_NAME_SERVER }}:buildcache
           cache-to: type=registry,ref=${{ env.IMAGE_NAME_SERVER }}:buildcache,mode=max
 
