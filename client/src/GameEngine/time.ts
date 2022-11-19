@@ -1,18 +1,25 @@
 export class Time {
     private dayLength: number;
     private startTime: number;
+    private currentTime: number;
 
     constructor(dayLength: number, startTime: number = 0) {
         this.dayLength = dayLength;
         this.startTime = startTime;
+        this.currentTime = startTime;
+    }
+
+    update(time_stamp: number) {
+        this.currentTime = time_stamp;
     }
 
     setStartTime(startTime: number) {
         this.startTime = startTime;
+        this.currentTime = startTime;
     }
 
-    getCurrentTimeInPercentOfDay(time_stamp: number): number {
-        let dt = (time_stamp - this.startTime) % this.dayLength;
+    getCurrentTimeInPercentOfDay(): number {
+        let dt = (this.currentTime - this.startTime) % this.dayLength;
         let currentTime = dt / this.dayLength;
         return currentTime;
     }

@@ -7,6 +7,7 @@ import { GameEventController } from "./Events/gameEventController";
 import { Task } from "./Entities/task";
 import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
+import { DaySeparator } from "./Entities/daySeparator";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -54,6 +55,7 @@ export class Game {
 
     initAssets() {
         this.initGUI();
+        this.addEntity(new DaySeparator(this.time));
     }
 
     initGUI() {
@@ -86,8 +88,7 @@ export class Game {
                 entity.update(dt);
             }
         }
-        let currentTime = this.time.getCurrentTimeInPercentOfDay(time_stamp);
-        console.log(currentTime);
+        this.time.update(time_stamp);
     }
 
     render(display: Display) {

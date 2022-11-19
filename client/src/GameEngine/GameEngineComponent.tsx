@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
 import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
 import { Scoreboard } from "../components/Scoreboard/Scoreboard";
+import { GameInfo } from "../components/GameInfo/GameInfo";
 
 interface IProps {}
 
@@ -10,7 +11,6 @@ interface IState {
     bottomHeight: string;
     gameOverScore: number | undefined;
     score: number;
-    adversaryScore: number;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -23,7 +23,6 @@ export class GameEngineComponent extends Component<IProps, IState> {
             bottomHeight: "60px",
             gameOverScore: undefined,
             score: 0,
-            adversaryScore: 0,
         };
         this.serverId = props.serverId;
     }
@@ -32,19 +31,12 @@ export class GameEngineComponent extends Component<IProps, IState> {
         return (
             <div className="game-engine-component">
                 <canvas></canvas>
-                
+
                 {this.state.gameOverScore !== undefined && (
-                    <GameOverPopUp
-                        score={this.state.gameOverScore}
-                        isMultiplayer={!!this.serverId}
-                        adversaryScore={this.state.adversaryScore}
-                    />
+                    <GameOverPopUp score={this.state.gameOverScore} />
                 )}
-                <Scoreboard
-                    score={this.state.score}
-                    isMultiplayer={!!this.serverId}
-                    adversaryScore={this.state.adversaryScore}
-                />
+                <Scoreboard score={this.state.score} />
+                <GameInfo days={this.state.score} money={this.state.score} />
             </div>
         );
     }
@@ -57,17 +49,6 @@ export class GameEngineComponent extends Component<IProps, IState> {
         gameEvents.onGameOver.subscribe((score) => {
             this.setState({
                 gameOverScore: score,
-            });
-        });
-        gameEvents.onScorePoint.subscribe((score) => {
-            this.setState({
-                score: score,
-            });
-        });
-
-        gameEvents.onEnemyScoreChange.subscribe((score) => {
-            this.setState({
-                adversaryScore: score,
             });
         });
 
