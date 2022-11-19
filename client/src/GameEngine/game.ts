@@ -51,8 +51,13 @@ export class Game {
         this.initAssets();
     }
 
+    getTime() {
+        return this.time;
+    }
+
     onStart(time_stamp: number): void {
         this.time.setStartTime(time_stamp);
+        this.onDayStart();
     }
 
     initAssets() {
@@ -62,12 +67,6 @@ export class Game {
 
     initGUI() {
         this.gui = [];
-        this.tasks = [];
-        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 50, "washing-machine", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 50, "dish-washer", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 50, "working", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 50, "solana", this));
-        // this.gui.push(Task.createRandom(this));
     }
 
     update(time_stamp: number) {
@@ -192,5 +191,11 @@ export class Game {
     onDayStart() {
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
         console.log(this.time.getDaysCount());
+        this.tasks = [];
+        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
+        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
+        // this.gui.push(Task.createRandom(this));
     }
 }
