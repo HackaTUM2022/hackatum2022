@@ -11,6 +11,8 @@ interface IState {
     bottomHeight: string;
     gameOverScore: number | undefined;
     score: number;
+    days: number;
+    money: number;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -23,6 +25,8 @@ export class GameEngineComponent extends Component<IProps, IState> {
             bottomHeight: "60px",
             gameOverScore: undefined,
             score: 0,
+            days: 1,
+            money: 0,
         };
         this.serverId = props.serverId;
     }
@@ -36,7 +40,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
                     <GameOverPopUp score={this.state.gameOverScore} />
                 )}
                 <Scoreboard score={this.state.score} />
-                <GameInfo days={this.state.score} money={this.state.score} />
+                <GameInfo days={this.state.days} money={this.state.money} />
             </div>
         );
     }
@@ -50,6 +54,12 @@ export class GameEngineComponent extends Component<IProps, IState> {
             this.setState({
                 gameOverScore: score,
             });
+        });
+        gameEvents.onDaysChange.subscribe((days) => {
+            this.setState({ days: days });
+        });
+        gameEvents.onMoneyChange.subscribe((money) => {
+            this.setState({ money: money });
         });
 
         window.addEventListener("resize", this.updateDimensions.bind(this));

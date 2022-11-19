@@ -87,7 +87,7 @@ export class Game {
                 entity.update(dt);
             }
         }
-        this.time.update(time_stamp);
+        this.time.update(time_stamp, () => this.onDayStart());
     }
 
     render(display: Display) {
@@ -183,5 +183,10 @@ export class Game {
 
     resume() {
         this.isGamePaused = false;
+    }
+
+    onDayStart() {
+        this.gameEvents.onDaysChange.next(this.time.getDaysCount());
+        console.log(this.time.getDaysCount());
     }
 }
