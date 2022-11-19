@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: philippzagar/hackatum-server:latest
     container_name: hackatum-server
-    command: npm run start
+    # command: npm run start
     restart: unless-stopped
     volumes:
       - ./server/:/usr/src/app
@@ -74,7 +74,6 @@ services:
       - server
     networks:
       - hackatum-network
-      
   # nginx-proxy:
   #   image: jwilder/nginx-proxy:alpine
   #   container_name: nginx-proxy
