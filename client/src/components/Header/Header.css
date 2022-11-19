@@ -1,7 +1,7 @@
 .headerContainer {
     font-family: "Times New Roman", Times, serif !important;
     /* background-color: #ffa726; */
-    background-image: linear-gradient(to top, #ffb955, #fbaf45, #f8a433, #f49920, #f08e00);
+    background-image: linear-gradient(to right, rgb(182, 244, 146), rgb(51, 139, 147));
     width: 100%;
     display: flex;
     overflow: hidden;

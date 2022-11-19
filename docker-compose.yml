@@ -42,8 +42,8 @@ services:
     container_name: hackatum-client
     restart: unless-stopped
     volumes:
-      - ./client/:/usr/app
-      - /usr/app/node_modules
+      - ./client/:/app:delegated
+      - /app/node_modules
     depends_on:
       - server
     ports:
