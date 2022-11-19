@@ -7,7 +7,6 @@ export class ImageLoader {
         for (let pth of paths) {
             let img = new Image();
             let url = process.env.PUBLIC_URL + "/img/" + pth;
-            console.log(url);
             this.images.set(pth, img);
             img.onload = () => {
                 this.total++;
@@ -24,6 +23,7 @@ export class ImageLoader {
         if (!this.images.has(name)) {
             throw new Error("image " + name + " not loaded!");
         }
+
         return this.images.get(name);
     }
 }

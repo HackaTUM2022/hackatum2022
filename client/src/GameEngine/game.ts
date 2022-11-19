@@ -4,7 +4,7 @@ import { Controller } from "./controller";
 import { Display } from "./display";
 import { Scoreboard } from "./Entities/scoreboard";
 import { GameEventController } from "./Events/gameEventController";
-import { getPlayerPostionData } from "./handsfreeController";
+import { Task } from "./Entities/task";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -15,6 +15,7 @@ export class Game {
 
     private player = new Player(0, 0, this);
     private scoreboard = new Scoreboard(this);
+
     public currentWidth = 0;
     public currentHeight = 0;
 
@@ -49,6 +50,15 @@ export class Game {
 
     initGUI() {
         this.gui = [];
+        this.addEntity(new Task(50, 50, "washing-machine", this));
+
+        this.addEntity(new Task(50, 150, "dish-washer", this));
+
+        this.addEntity(new Task(50, 250, "working", this));
+
+        this.addEntity(new Task(50, 350, "solana", this));
+
+        // this.gui.push(Task.createRandom(this));
     }
 
     update(time_stamp: number) {
@@ -67,9 +77,7 @@ export class Game {
             for (let entity of this.entities) {
                 entity.update(dt);
             }
-
         }
-
     }
 
     render(display: Display) {
@@ -109,7 +117,6 @@ export class Game {
 
         return this.gui.find((value) => value.id === uuid);
     }
-
 
     addEntity(e: Entity) {
         this.entities.push(e);
