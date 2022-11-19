@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: philippzagar/hackatum-server:latest
     container_name: hackatum-server
-    # command: npm run start
+    command: npm run start
     restart: unless-stopped
     volumes:
       - /usr/src/app/node_modules
