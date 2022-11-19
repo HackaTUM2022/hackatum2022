@@ -14,7 +14,7 @@ window.handsfree = new Handsfree({
 });
 window.handsfree.enablePlugins("browser");
 window.handsfree.start(() => {
-    // window.handsfree.pause();
+    window.handsfree.pause();
 });
 ReactDOM.render(
     <React.StrictMode>
