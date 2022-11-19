@@ -26,7 +26,7 @@ export class Game {
     private money: number;
     private dayConsumption: [number] = [0];
     private dayProduction: [number] = [0];
-    private dayWeather: [number] = [0];
+    private dayWeather: [number] = [0]; // encoding: 0 = sunny, 1 = cloudy, 2 = rainy
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -257,7 +257,6 @@ export class Game {
         if (this.money <= 0) {
             this.onGameOver();
         }
-        
 
         this.gameEvents.onMoneyChange.next(this.money);
         console.log("[HAMUDI] Money is now " + this.money);
