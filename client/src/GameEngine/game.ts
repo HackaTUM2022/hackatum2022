@@ -249,8 +249,9 @@ export class Game {
                 console.log(err);
             });
         }
-        
-        this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+
+        this.money = -1;
+        //this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
 

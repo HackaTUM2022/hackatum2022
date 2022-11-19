@@ -21,35 +21,38 @@ export class GameOverPopUp extends Component<IProps, IState> {
         };
         this.columns = [
             {
-                title: 'Name',
-                dataIndex: 'name',
-                key: 'name',
+                title: 'Buyer',
+                dataIndex: 'buyer',
+                key: 'buyer',
                 width: 100,
             },
             {
-                title: 'Age',
-                dataIndex: 'age',
-                key: 'age',
+                title: 'Seller',
+                dataIndex: 'seller',
+                key: 'seller',
                 width: 100,
             },
             {
-                title: 'Address',
-                dataIndex: 'address',
-                key: 'address',
+                title: 'Security',
+                dataIndex: 'security',
+                key: 'security',
                 width: 100,
             },
             {
-                title: 'Operations',
-                dataIndex: '',
-                key: 'operations',
+                title: 'QTY',
+                dataIndex: 'qty',
+                key: 'qty',
+                width: 100,
+            },
+            {
+                title: 'Price',
+                dataIndex: 'price',
+                key: 'price',
                 width: 100,
             },
         ];
 
-        this.data = [
-            { buyer: 'John Brown', seller: 'Jim Green', security: 'Apple', qty: 32, price: 100 },
-            { buyer: 'John', seller: 'Jim', security: 'Ap', qty: 3, price: 10 },
-        ];
+        this.data = [];
     }
 
     onSubmit(score: number, username: string) {
@@ -68,6 +71,15 @@ export class GameOverPopUp extends Component<IProps, IState> {
         });
     }
 
+    componentDidMount() {
+        fetch('http://localhost:8080/matches')
+            .then(response => response.json())
+            .then(data => {
+                this.data = data.data
+            })
+            .catch(error => console.log(error));
+    }
+
     render() {
         let title;
         title = "Game Over";
@@ -77,15 +89,15 @@ export class GameOverPopUp extends Component<IProps, IState> {
                 <div className="gameover">
                     <h2>{title}</h2>
                     <p>{this.props.score} days survived!</p>
-                    <input
-                        className="usernameInputEndGamePopup"
-                        type="text"
-                        placeholder="Your username"
-                        value={this.state.username}
-                        onChange={(evt) => this.updateInputValue(evt)}
-                    />
 
-                    <Table columns={this.columns} data={this.data} />
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <Table columns={this.columns} data={this.data} />
+                    </div>
+
 
                     <div className="returnHomeButton">
                         <Link to="/" className="scoreSubmitButton">
