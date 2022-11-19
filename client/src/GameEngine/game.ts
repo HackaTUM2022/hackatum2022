@@ -8,6 +8,7 @@ import { Task } from "./Entities/task";
 import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
 import { DaySeparator } from "./Entities/daySeparator";
+import { TimeIndicator } from "./Entities/timeIndicator";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -67,6 +68,11 @@ export class Game {
 
     initGUI() {
         this.gui = [];
+
+        // time line
+        for (let i = 3; i < 24; i += 3) {
+            this.gui.push(new TimeIndicator(i));
+        }
     }
 
     update(time_stamp: number) {
