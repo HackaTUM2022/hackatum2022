@@ -246,7 +246,6 @@ export class Game {
         // }
 
         // Decrease the time's dayLength based on the difficulty level
-
         this.time.setDayLength(
             Math.max(this.time.getDayLength() * 0.8, 5000)
         );
@@ -300,8 +299,9 @@ export class Game {
         return tasks;
     }
 
-    onTaskPlaced(hour: number) {
+    onTaskPlaced(hour: number, consumptionMultiplier: number) {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
+        const unitPrice = 10;
         console.log(
             "[HAMUDI] Task placed at " +
                 hour +
@@ -314,7 +314,7 @@ export class Game {
             this.networkInterface
                 .addOrder({
                     user: "test", // TODO: Get user from login
-                    price: 10, // TODO: decide on price
+                    price: unitPrice, // TODO: decide on price
                     side: "sell",
                     security: "solar",
                     qty: energyDelta * 5, // TODO: decide on qty
@@ -329,10 +329,10 @@ export class Game {
             this.networkInterface
                 .addOrder({
                     user: "test", // TODO: Get user from login
-                    price: 10, // TODO: decide on price
+                    price: unitPrice, // TODO: decide on price
                     side: "buy",
                     security: "coal",
-                    qty: energyDelta * 5, // TODO: decide on qty
+                    qty: energyDelta * consumptionMultiplier * 5, // TODO: decide on qty
                 })
                 .then((data) => {
                     // log here maybe
@@ -342,7 +342,7 @@ export class Game {
                 });
         }
 
-        this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+        this.money += Math.floor(energyDelta * unitPrice * consumptionMultiplier * 5); // * price * scale factor
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
 
