@@ -5,10 +5,10 @@ import Table from "rc-table";
 
 type Props = {
     score: number;
+    username?: string;
 };
 
-const GameOverPopUp = ({ score }: Props) => {
-    const username = "";
+const GameOverPopUp = ({ score, username }: Props) => {
     const defaultColumns = [
         {
             title: "Buyer",
@@ -50,7 +50,7 @@ const GameOverPopUp = ({ score }: Props) => {
             .then((response) => response.json())
             .then((data) => {
                 const newData = data.data.filter(
-                    (item: any) => item.buyer === username || item.seller === username || true
+                    (item: any) => item.buyer === username || item.seller === username
                 );
                 setData(newData);
             })

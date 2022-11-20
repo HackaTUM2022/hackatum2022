@@ -5,6 +5,14 @@
     z-index: 0;
 }
 
+.inputField {
+  input {
+    height: 100%;
+    border-radius: 10px;
+    margin-right: 10px;
+  }
+}
+
 .start-screen-overlay {
     position: absolute;
     top: 0;
@@ -48,13 +56,13 @@
     display: inline-block;
     font-size: 20px;
     color: white;
-    cursor: pointer;
+    // cursor: pointer;
     border-radius: 4px;
     transition: all 0.5s;
 }
 
 .button span {
-    cursor: pointer;
+    // cursor: pointer;
     display: inline-block;
     position: relative;
     transition: 0.5s;

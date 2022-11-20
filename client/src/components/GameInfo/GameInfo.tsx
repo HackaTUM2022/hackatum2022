@@ -9,7 +9,7 @@ type Props = {
 export const GameInfo = ({ days, money }: Props) => {
     return (
         <div>
-            <div className="scoreboard-container right">
+            <div className="scoreboard-container left">
                 <div className="score">
                     <p>⏱️ Days: {days}</p>
                 </div>
