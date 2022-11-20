@@ -2,7 +2,7 @@ import "./GameOverPopUp.scss";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { sendDataToDatabase } from "../../Scoreboard/serverapi.js";
-import Table from 'rc-table';
+import Table from "rc-table";
 interface IProps {
     score: number;
 }
@@ -13,7 +13,7 @@ interface IState {
 
 export class GameOverPopUp extends Component<IProps, IState> {
     data: { buyer: string; seller: string; security: string; qty: number; price: number }[];
-    columns: { title: string; dataIndex: string; key: string; width: number; }[];
+    columns: { title: string; dataIndex: string; key: string; width: number }[];
     constructor(props: any, context: any) {
         super(props, context);
         this.state = {
@@ -21,33 +21,33 @@ export class GameOverPopUp extends Component<IProps, IState> {
         };
         this.columns = [
             {
-                title: 'Buyer',
-                dataIndex: 'buyer',
-                key: 'buyer',
+                title: "Buyer",
+                dataIndex: "buyer",
+                key: "buyer",
                 width: 100,
             },
             {
-                title: 'Seller',
-                dataIndex: 'seller',
-                key: 'seller',
+                title: "Seller",
+                dataIndex: "seller",
+                key: "seller",
                 width: 100,
             },
             {
-                title: 'Security',
-                dataIndex: 'security',
-                key: 'security',
+                title: "Security",
+                dataIndex: "security",
+                key: "security",
                 width: 100,
             },
             {
-                title: 'QTY',
-                dataIndex: 'qty',
-                key: 'qty',
+                title: "QTY",
+                dataIndex: "qty",
+                key: "qty",
                 width: 100,
             },
             {
-                title: 'Price',
-                dataIndex: 'price',
-                key: 'price',
+                title: "Price",
+                dataIndex: "price",
+                key: "price",
                 width: 100,
             },
         ];
@@ -59,9 +59,6 @@ export class GameOverPopUp extends Component<IProps, IState> {
         if (!username) {
             username = "anonymous";
         }
-
-        console.log("score", score);
-        console.log("username", username);
         sendDataToDatabase(username, score);
     }
 
@@ -72,12 +69,15 @@ export class GameOverPopUp extends Component<IProps, IState> {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8080/matches')
-            .then(response => response.json())
-            .then(data => {
-                this.data = data.data.filter((item: any) => item.buyer === this.state.username || item.seller === this.state.username);
+        fetch("http://localhost:8080/matches")
+            .then((response) => response.json())
+            .then((data) => {
+                this.data = data.data.filter(
+                    (item: any) =>
+                        item.buyer === this.state.username || item.seller === this.state.username
+                );
             })
-            .catch(error => console.log(error));
+            .catch((error) => console.log(error));
     }
 
     render() {
@@ -90,14 +90,15 @@ export class GameOverPopUp extends Component<IProps, IState> {
                     <h2>{title}</h2>
                     <p>{this.props.score} days survived!</p>
 
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
                         <Table columns={this.columns} data={this.data} />
                     </div>
-
 
                     <div className="returnHomeButton">
                         <Link to="/" className="scoreSubmitButton">

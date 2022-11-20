@@ -119,7 +119,6 @@ export class Display {
         if (this.imageLoader.isLoaded) {
             this.buffer.rotate(angle);
             const prevShadowColor = this.buffer.shadowColor;
-            console.log("shadowColor", shadowColor);
             if (shadowColor !== undefined) {
                 this.buffer.shadowColor = shadowColor;
                 this.buffer.shadowBlur = 30;

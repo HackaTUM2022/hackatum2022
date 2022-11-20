@@ -10,7 +10,6 @@ export class ImageLoader {
             this.images.set(pth, img);
             img.onload = () => {
                 this.total++;
-                console.log(pth + ": " + this.total + "/" + this.images.size);
                 if (this.total === this.images.size) {
                     this.isLoaded = true;
                 }

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
 import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
 import { GameInfo } from "../components/GameInfo/GameInfo";
+import ConfettiExplosion from "@reonomy/react-confetti-explosion";
 
 interface IProps {}
 
@@ -13,6 +14,7 @@ interface IState {
     days: number;
     money: number;
     gameState: "initial" | "running";
+    isExploding: boolean;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -28,6 +30,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
             days: 1,
             money: 100,
             gameState: "initial",
+            isExploding: false,
         };
         this.handsfreeLoaded = props.handsfreeLoaded;
     }
@@ -35,6 +38,11 @@ export class GameEngineComponent extends Component<IProps, IState> {
     render() {
         return (
             <>
+                {this.state.isExploding && (
+                    <div className="confettis">
+                        <ConfettiExplosion />
+                    </div>
+                )}
                 {this.state.gameState === "initial" && (
                     <div className="start-screen-overlay">
                         <button
@@ -114,5 +122,20 @@ export class GameEngineComponent extends Component<IProps, IState> {
         window.removeEventListener("resize", this.updateDimensions);
         this.game?.stop();
         delete this.game;
+    }
+
+    componentDidUpdate(prevProps: IProps, prevState: IState) {
+        console.log("componentDidUpdate", this.state.money);
+        console.log("prevState", prevState.money);
+
+        if (this.state.money > prevState.money) {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", this.state.money);
+            console.log(this.state.isExploding);
+            // Confetti !
+            this.setState({ isExploding: true });
+            setTimeout(() => {
+                this.setState({ isExploding: false });
+            }, 1500);
+        }
     }
 }

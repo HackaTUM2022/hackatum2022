@@ -27,10 +27,9 @@ export class Chart implements Entity {
         for (let i = 0; i < this.dayData.length; i++) {
             points.push({
                 x: (i / this.dayData.length) * width + 25,
-                y: (height - offset) - this.dayData[i] * height * 0.3,
+                y: height - offset - this.dayData[i] * height * 0.3,
             });
         }
-        console.log(this.dayData);
         display.drawSmoothCurve(points, this.color);
     }
 }

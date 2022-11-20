@@ -1,68 +1,75 @@
 .game-engine-component {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  z-index: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: 0;
 }
 
 .start-screen-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  // background-color: black;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    // background-color: black;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.confettis {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
 
 .button {
-  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  background-color: #89CFF0;
-  font-size: medium;
-  font-weight: bolder;
-  font-family: "Comfortaa", cursive;
-  border: none;
-  padding: 10px 19px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.5s;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background-color: #89cff0;
+    font-size: medium;
+    font-weight: bolder;
+    font-family: "Comfortaa", cursive;
+    border: none;
+    padding: 10px 19px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.5s;
 }
 
 .button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
 .button span:after {
-  content: "\00bb";
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+    content: "\00bb";
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
 }
 
 .button:hover:enabled span {
-  padding-right: 25px;
+    padding-right: 25px;
 }
 
 .button:hover:enabled span:after {
-  opacity: 1;
-  right: 0;
+    opacity: 1;
+    right: 0;
 }
 
 .button:disabled {
-  background-color: hsl(32deg, 100%, 82%)
+    background-color: hsl(32deg, 100%, 82%);
 }
