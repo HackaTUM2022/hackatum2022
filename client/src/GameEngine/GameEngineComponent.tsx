@@ -1,9 +1,9 @@
 import "./GameEngineComponent.scss";
 import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
-import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
 import { GameInfo } from "../components/GameInfo/GameInfo";
 import ConfettiExplosion from "@reonomy/react-confetti-explosion";
+import GameOverPopUp from "../components/GameOverPopUp/GameOverPopUp";
 
 interface IProps {}
 
@@ -81,17 +81,21 @@ export class GameEngineComponent extends Component<IProps, IState> {
                     </div>
                 )}
 
+                {this.state.gameOverScore !== undefined && (
+                    <GameOverPopUp score={this.state.days} />
+                )}
+
                 <div
                     className="game-engine-component"
                     style={{
-                        filter: this.state.gameState !== "running" ? "blur(30px)" : "none",
+                        filter:
+                            this.state.gameState !== "running" ||
+                            this.state.gameOverScore !== undefined
+                                ? "blur(30px)"
+                                : "none",
                     }}
                 >
                     <canvas></canvas>
-
-                    {this.state.gameOverScore !== undefined && (
-                        <GameOverPopUp score={this.state.gameOverScore} />
-                    )}
 
                     <GameInfo days={this.state.days} money={this.state.money} />
                 </div>

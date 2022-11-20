@@ -254,14 +254,14 @@ export class Game {
     }
 
     onDayStart() {
-        // if (this.time.getDaysCount() !== 1) {
-        //     this.tasks.forEach((task) => {
-        //         if (!task.selected) {
-        //             this.onGameOver();
-        //             return;
-        //         }
-        //     });
-        // }
+        if (this.time.getDaysCount() !== 1) {
+            this.tasks.forEach((task) => {
+                if (!task.selected) {
+                    this.onGameOver();
+                    return;
+                }
+            });
+        }
 
         // Decrease the time's dayLength based on the difficulty level
         this.time.setDayLength(Math.max(this.time.getDayLength() * 0.8, 5000));
