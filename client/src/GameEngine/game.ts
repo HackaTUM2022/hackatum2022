@@ -245,6 +245,14 @@ export class Game {
         //     });
         // }
 
+        // Decrease the time's dayLength based on the difficulty level
+
+        this.time.setDayLength(
+            Math.max(this.time.getDayLength() * 0.8, 5000)
+        );
+
+
+
         this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
@@ -338,11 +346,11 @@ export class Game {
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
 
+        this.gameEvents.onMoneyChange.next(this.money);
         if (this.money <= 0) {
             this.onGameOver();
         }
 
-        this.gameEvents.onMoneyChange.next(this.money);
         console.log("[HAMUDI] Money is now " + this.money);
     }
 }
