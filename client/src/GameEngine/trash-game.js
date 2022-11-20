@@ -4,14 +4,19 @@ import { Game } from "./game";
 import { Engine } from "./engine";
 
 export class TrashGame {
-    constructor(serverId) {
+    constructor() {
+        this.restart();
+    }
+
+    restart() {
+
         /* Controller handles user input */
         this.controller = new Controller();
         /* Display handles window resizing */
         this.display = new Display(document.querySelector("canvas"));
 
         /* Display handles the game logic */
-        this.game = new Game(this.display, serverId);
+        this.game = new Game(this.display);
 
         let fps = 30;
         /* Engine combines the controller, display and game */
@@ -127,5 +132,9 @@ export class TrashGame {
         delete this.display;
         delete this.engine;
         delete this.game;
+    }
+
+    start() {
+        this.game.resume();
     }
 }

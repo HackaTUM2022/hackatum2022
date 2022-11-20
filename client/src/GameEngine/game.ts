@@ -51,12 +51,12 @@ export class Game {
     // One out of 4 changes of increasing difficulty on addPoints
     public readonly increaseDiffChance: number = 1 / 4;
 
-    public isGamePaused: boolean = false;
+    public isGamePaused: boolean = true;
     public isGameOver: boolean = false;
 
     public gameEvents: GameEventController;
 
-    constructor(display: Display, serverId: string) {
+    constructor(display: Display) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
 
@@ -115,10 +115,9 @@ export class Game {
             for (let task of this.tasks) {
                 task.update(dt);
             }
+            this.time.update(time_stamp, () => this.onDayStart());
+            this.screenFader.update(dt);
         }
-        this.time.update(time_stamp, () => this.onDayStart());
-
-        this.screenFader.update(dt);
     }
 
     render(display: Display) {
@@ -251,11 +250,7 @@ export class Game {
         // }
 
         // Decrease the time's dayLength based on the difficulty level
-        this.time.setDayLength(
-            Math.max(this.time.getDayLength() * 0.8, 5000)
-        );
-
-
+        this.time.setDayLength(Math.max(this.time.getDayLength() * 0.8, 5000));
 
         this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
