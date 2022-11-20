@@ -21,7 +21,7 @@ function MainPage({ serverId, setServerId }) {
                 </div>
                 <div className="rightBody">
                     <h2 className="leftBodyHeader">Multiplayer</h2>
-                    <h5 className="leftBodySubHeader">Send the join code to a friend:</h5>
+                    <h5 className="leftBodySubHeader">🚧 Coming soon! 🚧</h5>
                     <div className="rightBodyButtons">
                     </div>
                 </div>

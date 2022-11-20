@@ -11,6 +11,7 @@ import { DaySeparator } from "./Entities/daySeparator";
 import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
 import { Chart } from "./Entities/chart";
+import { WeatherIcon } from "./Entities/weatherIcon";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -18,6 +19,7 @@ export class Game {
     private gui: Entity[] = [];
     private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
+    private weatherIcons: WeatherIcon[] = [];
 
     private lastUpdate: number | undefined;
 
@@ -126,6 +128,9 @@ export class Game {
         }
 
         this.chart.render(display);
+        for (let weatherIcon of this.weatherIcons) {
+            weatherIcon.render(display);
+        }
     }
 
     handleInput(controller: Controller) {
@@ -216,45 +221,72 @@ export class Game {
         this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
         // this.gui.push(Task.createRandom(this));
 
-        this.networkInterface.getNewDay().then((data) => {
-            this.dayConsumption = data.consumption.map((value: any) => value[1]);
-            this.dayProduction = data.production.map((value: any) => value[1]);
-            this.dayWeather = data.weather;
-            this.chart = new Chart(this.dayWeather);
-        }).catch((err) => {
-            console.log(err);
-        });
+        this.networkInterface
+            .getNewDay()
+            .then((data) => {
+                this.dayConsumption = data.consumption.map((value: any) => value[1]);
+                this.dayProduction = data.production.map((value: any) => value[1]);
+                this.dayWeather = data.weather;
+                this.chart = new Chart(this.dayWeather);
+
+                // day weather icons
+                this.weatherIcons = [];
+                for (let i = 0; i < 24; i += 3) {
+                    const averageWeather = Math.round(
+                        (this.dayWeather[i] + this.dayWeather[i + 1] + this.dayWeather[i + 2]) / 3
+                    );
+                    this.weatherIcons.push(
+                        new WeatherIcon(i + 1.5, WeatherIcon.weatherTypes[averageWeather])
+                    );
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     onTaskPlaced(hour: number) {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
-        console.log("[HAMUDI] Task placed at " + hour + " with money " + this.money + " and energy delta: " + energyDelta);
+        console.log(
+            "[HAMUDI] Task placed at " +
+                hour +
+                " with money " +
+                this.money +
+                " and energy delta: " +
+                energyDelta
+        );
         if (energyDelta > 0) {
-            this.networkInterface.addOrder({
-                user: "test", // TODO: Get user from login
-                price: 10, // TODO: decide on price
-                side: "sell",
-                security: "solar",
-                qty: energyDelta * 5, // TODO: decide on qty
-            }).then((data) => {
-                // log here maybe
-            }).catch((err) => {
-                console.log(err);
-            });
+            this.networkInterface
+                .addOrder({
+                    user: "test", // TODO: Get user from login
+                    price: 10, // TODO: decide on price
+                    side: "sell",
+                    security: "solar",
+                    qty: energyDelta * 5, // TODO: decide on qty
+                })
+                .then((data) => {
+                    // log here maybe
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         } else if (energyDelta < 0) {
-            this.networkInterface.addOrder({
-                user: "test", // TODO: Get user from login
-                price: 10, // TODO: decide on price
-                side: "buy",
-                security: "coal",
-                qty: energyDelta * 5, // TODO: decide on qty
-            }).then((data) => {
-                // log here maybe
-            }).catch((err) => {
-                console.log(err);
-            });
+            this.networkInterface
+                .addOrder({
+                    user: "test", // TODO: Get user from login
+                    price: 10, // TODO: decide on price
+                    side: "buy",
+                    security: "coal",
+                    qty: energyDelta * 5, // TODO: decide on qty
+                })
+                .then((data) => {
+                    // log here maybe
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
-        
+
         this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);

@@ -1,5 +1,6 @@
 import { ImageLoader } from "./imageloader";
 import { Task } from "./Entities/task";
+import { WeatherIcon } from "./Entities/weatherIcon";
 
 export class Display {
     buffer: CanvasRenderingContext2D;
@@ -34,6 +35,7 @@ export class Display {
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
 
         let toLoad = Task.getImagesToLoad();
+        toLoad = [...toLoad, ...WeatherIcon.getImagesToLoad()];
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;

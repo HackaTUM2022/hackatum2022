@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 function Header() {
     return (
         <div className="headerContainer">
-            <img className="headerLogo" src="img/logo.png" alt="unserlogo!" />
-            <span className="headerTeamName">Team Fitzels</span>
+            <img className="headerLogo" src="https://img.icons8.com/officel/80/null/solar-panel.png" alt="logo" />
+            <span className="headerTeamName">Team PHAMics</span>
             <div className="headerNav">
                 <Link to="/" className="headerHome">
                     <span>Home</span>
