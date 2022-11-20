@@ -11,10 +11,10 @@ export const GameInfo = ({ days, money }: Props) => {
         <div>
             <div className="scoreboard-container right">
                 <div className="score">
-                    <p>Days: {days}</p>
+                    <p>⏱️ Days: {days}</p>
                 </div>
                 <div className="score">
-                    <p>Money: {money}</p>
+                    <p>💰 Money: {money}</p>
                 </div>
             </div>
         </div>

@@ -1,38 +1,38 @@
 .scoreboard-container {
-    position: fixed;
-    top: 0;
-  
-    &.left {
-      left: 0;
-      padding: 5px 40px 5px 15px;
-      border-radius: 0px 0px 15px;
-  
-    }
-    &.right {
-      right: 0;
-      padding: 5px 15px 5px 40px;
-      border-radius: 0px 0px 0px 15px;
-    }
-  
-    user-select: none;
-    background: white;
-  
-    p {
-      color: #303030;
-      font-weight: bold;
-      font-size: 1.8rem;
-      margin: 0;
-  
-      .multiplayer-label {
-        color: #ff4086;
-  
-        &.you {
-          color: #6a59ff;
-        }
-        font-weight: 700;
-      }
-    }
-  
+  position: fixed;
+  top: 0;
+
+  &.left {
+    left: 0;
+    padding: 5px 40px 5px 15px;
+    border-radius: 0px 0px 15px;
+
   }
-  
-  
+
+  &.right {
+    right: 0;
+    padding: 5px 10px 7px 10px;
+    border-radius: 0px 0px 0px 15px;
+  }
+
+  user-select: none;
+  background: white;
+
+  p {
+    color: #303030;
+    font-weight: bold;
+    font-size: 1.8rem;
+    margin: 0;
+
+    .multiplayer-label {
+      color: #ff4086;
+
+      &.you {
+        color: #6a59ff;
+      }
+
+      font-weight: 700;
+    }
+  }
+
+}

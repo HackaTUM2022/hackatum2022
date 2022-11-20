@@ -5,11 +5,10 @@ import { useEffect, useState } from "react";
 import "./Scoreboard.css";
 
 const mock_data = [
-    { USERNAME: "Doge", SCORE: 420 },
+    { USERNAME: "Philipp", SCORE: 420 },
     { USERNAME: "Maria", SCORE: 69 },
-    { USERNAME: "Sebastien", SCORE: 42 },
-    { USERNAME: "Jonas", SCORE: 3 },
-    { USERNAME: "Almo", SCORE: 1 },
+    { USERNAME: "Almo", SCORE: 42 },
+    { USERNAME: "Hamudi", SCORE: 3 },
 ];
 
 function Scoreboard() {
@@ -51,8 +50,8 @@ function Scoreboard() {
             >
                 <defs>
                     <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-                        <stop stop-color="rgba(243, 106, 62, 1)" offset="0%"></stop>
-                        <stop stop-color="rgba(199.987, 123.488, 237.241, 1)" offset="100%"></stop>
+                        <stop stop-color="rgba(182, 244, 146, 1)" offset="0%"></stop>
+                        <stop stop-color="rgba(51, 139, 147, 1)" offset="100%"></stop>
                     </linearGradient>
                 </defs>
                 <path

@@ -14,7 +14,7 @@ function MainPage({ serverId, setServerId }) {
             <div className="mainPageBody">
                 <div className="leftBody">
                     <h2 className="leftBodyHeader">Singleplayer</h2>
-                    <h5 className="leftBodySubHeader">Try it out, now!</h5>
+                    <h5 className="leftBodySubHeader">Try it out now!</h5>
                     <Link to="/game" className="button">
                         <span>START A GAME</span>
                     </Link>
@@ -36,8 +36,8 @@ function MainPage({ serverId, setServerId }) {
             >
                 <defs>
                     <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-                        <stop stop-color="rgba(248.625, 146.386, 113.55, 1)" offset="0%"></stop>
-                        <stop stop-color="rgba(255, 179, 11, 1)" offset="100%"></stop>
+                        <stop stop-color="rgba(182, 244, 146, 1)" offset="0%"></stop>
+                        <stop stop-color="rgba(51, 139, 147, 1)" offset="100%"></stop>
                     </linearGradient>
                 </defs>
                 <path

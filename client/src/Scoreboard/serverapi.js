@@ -2,7 +2,7 @@
 
 export async function getDataFromDatabase() {
     let scoreData = [];
-    await fetch("https://sheltered-forest-46021.herokuapp.com/get_scores", {
+    await fetch("http://localhost:8080/games", {
         method: "GET",
     })
         .then((response) => response.json())
@@ -10,8 +10,12 @@ export async function getDataFromDatabase() {
             scoreData = data.data;
         });
 
-    console.log("scoreData", scoreData);
-    return scoreData;
+    return scoreData.map((score) => {
+        return {
+            name: score.username,
+            score: score.highscoreDays,
+        };
+    });
 }
 
 export async function sendDataToDatabase(username, score) {

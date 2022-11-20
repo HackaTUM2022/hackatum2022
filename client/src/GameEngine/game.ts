@@ -202,8 +202,16 @@ export class Game {
     }
 
     onDayStart() {
+        if (this.time.getDaysCount() !== 1) {
+            this.tasks.forEach((task) => {
+                if (!task.selected) {
+                    this.onGameOver();
+                    return;
+                }
+            });
+        }
+
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
-        console.log(this.time.getDaysCount());
 
         this.tasks = [];
         this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));

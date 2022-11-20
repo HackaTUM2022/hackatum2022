@@ -2,10 +2,9 @@ import "./GameEngineComponent.scss";
 import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
 import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
-import { Scoreboard } from "../components/Scoreboard/Scoreboard";
 import { GameInfo } from "../components/GameInfo/GameInfo";
 
-interface IProps {}
+interface IProps { }
 
 interface IState {
     bottomHeight: string;
@@ -39,7 +38,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 {this.state.gameOverScore !== undefined && (
                     <GameOverPopUp score={this.state.gameOverScore} />
                 )}
-                <Scoreboard score={this.state.score} />
+
                 <GameInfo days={this.state.days} money={this.state.money} />
             </div>
         );
