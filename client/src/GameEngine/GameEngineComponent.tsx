@@ -1,9 +1,9 @@
 import "./GameEngineComponent.scss";
 import React, { Component } from "react";
 import { TrashGame } from "./trash-game";
-import { GameOverPopUp } from "../components/GameOverPopUp/GameOverPopUp";
 import { GameInfo } from "../components/GameInfo/GameInfo";
 import ConfettiExplosion from "@reonomy/react-confetti-explosion";
+import GameOverPopUp from "../components/GameOverPopUp/GameOverPopUp";
 
 interface IProps {}
 
@@ -45,6 +45,10 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 )}
                 {this.state.gameState === "initial" && (
                     <div className="start-screen-overlay">
+                        {/* <div className="container"></div> */}
+                        <div>
+                            <h2 className="title">SOLAYES</h2>
+                        </div>
                         <button
                             className="button"
                             onClick={() => {
@@ -77,17 +81,21 @@ export class GameEngineComponent extends Component<IProps, IState> {
                     </div>
                 )}
 
+                {this.state.gameOverScore !== undefined && (
+                    <GameOverPopUp score={this.state.days} />
+                )}
+
                 <div
                     className="game-engine-component"
                     style={{
-                        filter: this.state.gameState !== "running" ? "blur(30px)" : "none",
+                        filter:
+                            this.state.gameState !== "running" ||
+                            this.state.gameOverScore !== undefined
+                                ? "blur(30px)"
+                                : "none",
                     }}
                 >
                     <canvas></canvas>
-
-                    {this.state.gameOverScore !== undefined && (
-                        <GameOverPopUp score={this.state.gameOverScore} />
-                    )}
 
                     <GameInfo days={this.state.days} money={this.state.money} />
                 </div>
@@ -125,12 +133,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
     }
 
     componentDidUpdate(prevProps: IProps, prevState: IState) {
-        console.log("componentDidUpdate", this.state.money);
-        console.log("prevState", prevState.money);
-
         if (this.state.money > prevState.money) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", this.state.money);
-            console.log(this.state.isExploding);
             // Confetti !
             this.setState({ isExploding: true });
             setTimeout(() => {
