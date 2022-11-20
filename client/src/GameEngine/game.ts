@@ -303,16 +303,16 @@ export class Game {
         const unitPrice = 10;
         console.log(
             "[HAMUDI] Task placed at " +
-                hour +
-                " with money " +
-                this.money +
-                " and energy delta: " +
-                energyDelta
+            hour +
+            " with money " +
+            this.money +
+            " and energy delta: " +
+            energyDelta
         );
         if (energyDelta > 0) {
             this.networkInterface
                 .addOrder({
-                    user: "test", // TODO: Get user from login
+                    user: "PHAMics", // TODO: Get user from login
                     price: unitPrice, // TODO: decide on price
                     side: "sell",
                     security: "solar",
@@ -327,7 +327,7 @@ export class Game {
         } else if (energyDelta < 0) {
             this.networkInterface
                 .addOrder({
-                    user: "test", // TODO: Get user from login
+                    user: "PHAMics", // TODO: Get user from login
                     price: unitPrice, // TODO: decide on price
                     side: "buy",
                     security: "coal",
