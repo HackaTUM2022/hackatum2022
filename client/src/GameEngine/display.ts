@@ -72,7 +72,7 @@ export class Display {
     drawSmoothCurve(points: any, color: string) {
         this.buffer.beginPath();
         this.buffer.strokeStyle = color;
-        this.buffer.lineWidth = 20;
+        this.buffer.lineWidth = 7;
         this.buffer.moveTo(points[0].x, points[0].y);
         let i = 1;
 
