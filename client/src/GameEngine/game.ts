@@ -12,6 +12,8 @@ import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
 import { Chart } from "./Entities/chart";
 import { WeatherIcon } from "./Entities/weatherIcon";
+import { Rectangle } from "./Entities/rectangle";
+import { ScreenFader } from "./Entities/screenFader";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -20,17 +22,23 @@ export class Game {
     private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
     private weatherIcons: WeatherIcon[] = [];
+    public timeLines: Entity[] = [];
 
     private lastUpdate: number | undefined;
 
+    private static readonly PRODUCTION_CHART_COLOR = "rgb(0, 255, 0, 0.45)";
+    private static readonly CONSUMPTION_CHART_COLOR = "rgb(255, 0, 0, 0.45)";
+
     private player: Player;
-    private chart = new Chart([]);
+    private productionChart = new Chart([], Game.PRODUCTION_CHART_COLOR);
+    private chart = new Chart([], Game.CONSUMPTION_CHART_COLOR);
     private scoreboard = new Scoreboard(this);
     public time: Time;
     private money: number;
     private dayConsumption: [number] = [0];
     private dayProduction: [number] = [0];
     private dayWeather: [number] = [0]; // encoding: 0 = sunny, 1 = cloudy, 2 = rainy
+    private screenFader: ScreenFader;
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -56,10 +64,10 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.gameEvents = new GameEventController();
-        this.time = new Time(10000);
+        this.time = new Time(20000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
-
+        this.screenFader = new ScreenFader(0, this.cameraCanvasHeight, this.time, "black", 0.5);
         this.initAssets();
     }
 
@@ -84,6 +92,7 @@ export class Game {
         for (let i = 3; i < 24; i += 3) {
             this.gui.push(new TimeIndicator(i));
         }
+        //add grass
     }
 
     update(time_stamp: number) {
@@ -108,12 +117,21 @@ export class Game {
             }
         }
         this.time.update(time_stamp, () => this.onDayStart());
+
+        this.screenFader.update(dt);
     }
 
     render(display: Display) {
         //For every object to render
 
         this.player.render(display);
+        display.drawImage(
+            0,
+            display.getDrawableHeight() - 110,
+            display.getDrawableWidth(),
+            110,
+            "gras.png"
+        );
 
         for (let entity of this.entities) {
             entity.render(display);
@@ -128,9 +146,16 @@ export class Game {
         }
 
         this.chart.render(display);
+
+        this.productionChart.render(display);
         for (let weatherIcon of this.weatherIcons) {
             weatherIcon.render(display);
         }
+
+        for (let timeLine of this.timeLines) {
+            timeLine.render(display);
+        }
+        this.screenFader.render(display);
     }
 
     handleInput(controller: Controller) {
@@ -192,6 +217,10 @@ export class Game {
         }
     }
 
+    addToTimeLine(entity: Entity) {
+        this.timeLines.push(entity);
+    }
+
     stop() {
         this.gameEvents.stop();
     }
@@ -212,31 +241,35 @@ export class Game {
     }
 
     onDayStart() {
-        if (this.time.getDaysCount() !== 1) {
-            this.tasks.forEach((task) => {
-                if (!task.selected) {
-                    this.onGameOver();
-                    return;
-                }
-            });
-        }
+        // if (this.time.getDaysCount() !== 1) {
+        //     this.tasks.forEach((task) => {
+        //         if (!task.selected) {
+        //             this.onGameOver();
+        //             return;
+        //         }
+        //     });
+        // }
 
+        // Decrease the time's dayLength based on the difficulty level
+
+        this.time.setDayLength(
+            Math.max(this.time.getDayLength() * 0.8, 5000)
+        );
+
+
+
+        this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
-        this.tasks = [];
-        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
-        // this.gui.push(Task.createRandom(this));
-
+        this.tasks = this.addDifferentTasks();
         this.networkInterface
             .getNewDay()
             .then((data) => {
                 this.dayConsumption = data.consumption.map((value: any) => value[1]);
                 this.dayProduction = data.production.map((value: any) => value[1]);
                 this.dayWeather = data.weather;
-                this.chart = new Chart(this.dayProduction);
+                this.productionChart = new Chart(this.dayProduction, Game.PRODUCTION_CHART_COLOR);
+                this.chart = new Chart(this.dayConsumption, Game.CONSUMPTION_CHART_COLOR);
 
                 // day weather icons
                 this.weatherIcons = [];
@@ -254,15 +287,33 @@ export class Game {
             });
     }
 
+    addDifferentTasks() {
+        let tasks = [];
+        while (tasks.length < 4) {
+            const randomIndex = Math.floor(Math.random() * 6);
+            const task = Task.tasks[randomIndex];
+
+            let selectedIndex = tasks.findIndex((value) => value.getName() === task);
+
+            if (selectedIndex === -1) {
+                tasks.push(
+                    new Task((this.cameraCanvasWidth / 5) * (tasks.length + 1), 200, task, this)
+                );
+            }
+        }
+
+        return tasks;
+    }
+
     onTaskPlaced(hour: number) {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
         console.log(
             "[HAMUDI] Task placed at " +
-            hour +
-            " with money " +
-            this.money +
-            " and energy delta: " +
-            energyDelta
+                hour +
+                " with money " +
+                this.money +
+                " and energy delta: " +
+                energyDelta
         );
         if (energyDelta > 0) {
             this.networkInterface
@@ -300,11 +351,11 @@ export class Game {
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
 
+        this.gameEvents.onMoneyChange.next(this.money);
         if (this.money <= 0) {
             this.onGameOver();
         }
 
-        this.gameEvents.onMoneyChange.next(this.money);
         console.log("[HAMUDI] Money is now " + this.money);
     }
 }

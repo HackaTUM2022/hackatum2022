@@ -8,14 +8,15 @@ export class Time {
         this.dayLength = dayLength;
         this.startTime = startTime;
         this.currentTime = startTime;
-        this.currentDay = this.getDaysCount();
+        this.currentDay = 1;
     }
 
     update(time_stamp: number, onDayStart: () => void) {
         this.currentTime = time_stamp;
-        const newDate = this.getDaysCount();
-        if (newDate !== this.currentDay) {
-            this.currentDay = newDate;
+        if (this.currentTime - this.startTime > this.dayLength){
+
+            this.currentDay++;
+            this.startTime = time_stamp;
             onDayStart();
         }
     }
@@ -25,6 +26,14 @@ export class Time {
         this.currentTime = startTime;
     }
 
+    getDayLength(): number {
+        return this.dayLength;
+    }
+
+    setDayLength(dayLength: number) {
+        this.dayLength = dayLength;
+    }
+
     getCurrentTimeInPercentOfDay(): number {
         let dt = (this.currentTime - this.startTime) % this.dayLength;
         let currentTime = dt / this.dayLength;
@@ -32,7 +41,6 @@ export class Time {
     }
 
     getDaysCount(): number {
-        let days = Math.ceil((this.currentTime - this.startTime) / this.dayLength);
-        return days;
+        return this.currentDay;
     }
 }

@@ -36,6 +36,7 @@ export class Display {
 
         let toLoad = Task.getImagesToLoad();
         toLoad = [...toLoad, ...WeatherIcon.getImagesToLoad()];
+        toLoad.push("gras.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
@@ -57,9 +58,28 @@ export class Display {
         this.buffer.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    drawRectangle(x: number, y: number, width: number, height: number, color: string) {
+    drawRectangle(
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        color: string,
+        alpha: number = 1,
+        strokeStyle?: string
+    ) {
         this.buffer.fillStyle = color;
+        this.buffer.globalAlpha = alpha;
+        const prevStrokeStyle = this.buffer.strokeStyle;
+        if (strokeStyle !== undefined) {
+            this.buffer.strokeStyle = strokeStyle;
+            this.buffer.lineWidth = 10;
+            this.buffer.strokeRect(x, y, width, height);
+        }
+
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+
+        this.buffer.globalAlpha = 1;
+        this.buffer.strokeStyle = prevStrokeStyle;
     }
 
     drawCircle(x: number, y: number, radius: number, color: string) {
@@ -67,6 +87,7 @@ export class Display {
         this.buffer.arc(x + radius, y + radius, radius, 0, 2 * Math.PI, false);
         this.buffer.fillStyle = color;
         this.buffer.fill();
+        this.buffer.stroke();
     }
 
     drawSmoothCurve(points: any, color: string) {
@@ -81,12 +102,7 @@ export class Display {
             let yc = (points[i].y + points[i + 1].y) / 2;
             this.buffer.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
         }
-        this.buffer.quadraticCurveTo(
-            points[i].x,
-            points[i].y,
-            points[i + 1].x,
-            points[i + 1].y
-        );
+        this.buffer.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         this.buffer.stroke();
     }
 
@@ -96,10 +112,18 @@ export class Display {
         width: number,
         height: number,
         name: string,
-        angle: number = 0
+        angle: number = 0,
+        shadowColor?: string
     ) {
         if (this.imageLoader.isLoaded) {
             this.buffer.rotate(angle);
+            const prevShadowColor = this.buffer.shadowColor;
+            console.log("shadowColor", shadowColor);
+            if (shadowColor !== undefined) {
+                this.buffer.shadowColor = shadowColor;
+                this.buffer.shadowBlur = 30;
+            }
+
             this.buffer.drawImage(
                 this.imageLoader.getImage(name),
                 Math.floor(x),
@@ -107,6 +131,8 @@ export class Display {
                 width,
                 height
             );
+            this.buffer.shadowColor = prevShadowColor;
+
             this.buffer.rotate(-angle);
         } else {
             // this.drawRectangle(x, y, width, height, "red");
