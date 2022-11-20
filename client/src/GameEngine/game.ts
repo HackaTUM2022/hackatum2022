@@ -242,11 +242,11 @@ export class Game {
         this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
-        this.tasks = [];
-        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
+        this.tasks = this.addDifferentTasks();
+        // this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
+        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
+        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
+        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
         // this.gui.push(Task.createRandom(this));
 
         this.networkInterface
@@ -271,6 +271,24 @@ export class Game {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    addDifferentTasks() {
+        let tasks = [];
+        while (tasks.length < 4) {
+            const randomIndex = Math.floor(Math.random() * 6);
+            const task = Task.tasks[randomIndex];
+
+            let selectedIndex = tasks.findIndex((value) => value.getName() === task);
+
+            if (selectedIndex === -1) {
+                tasks.push(
+                    new Task((this.cameraCanvasWidth / 5) * (tasks.length + 1), 70, task, this)
+                );
+            }
+        }
+
+        return tasks;
     }
 
     onTaskPlaced(hour: number) {

@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { Game } from "../game";
 
 export class Task implements Entity {
-    private static tasks = [
+    public static tasks = [
         "washing-machine",
         "working",
         "solana",
@@ -44,6 +44,10 @@ export class Task implements Entity {
         this.game = game;
         this.offset = Math.random() * 2;
         this.selected = false;
+    }
+
+    getName() {
+        return this.name;
     }
 
     getSelected() {
