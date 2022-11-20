@@ -112,10 +112,18 @@ export class Display {
         width: number,
         height: number,
         name: string,
-        angle: number = 0
+        angle: number = 0,
+        shadowColor?: string
     ) {
         if (this.imageLoader.isLoaded) {
             this.buffer.rotate(angle);
+            const prevShadowColor = this.buffer.shadowColor;
+            console.log("shadowColor", shadowColor);
+            if (shadowColor !== undefined) {
+                this.buffer.shadowColor = shadowColor;
+                this.buffer.shadowBlur = 30;
+            }
+
             this.buffer.drawImage(
                 this.imageLoader.getImage(name),
                 Math.floor(x),
@@ -123,7 +131,26 @@ export class Display {
                 width,
                 height
             );
+            this.buffer.shadowColor = prevShadowColor;
+
             this.buffer.rotate(-angle);
+            // if (name === "actions/working.png" || name === "actions/television.png") {
+            //     this.buffer.shadowColor = "green";
+            //     this.buffer.shadowBlur = 15;
+            // } else if (
+            //     name === "actions/washing-machine.png" ||
+            //     name === "actions/dish-washer.png"
+            // ) {
+            //     this.buffer.shadowColor = "yellow";
+            //     this.buffer.shadowBlur = 15;
+            // } else if (
+            //     name === "actions/solana.png" ||
+            //     name === "actions/bitcoin.png" ||
+            //     name === "actions/heating.png"
+            // ) {
+            //     this.buffer.shadowColor = "red";
+            //     this.buffer.shadowBlur = 15;
+            // }
         } else {
             // this.drawRectangle(x, y, width, height, "red");
         }

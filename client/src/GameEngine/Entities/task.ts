@@ -60,7 +60,45 @@ export class Task implements Entity {
 
     render(display: Display): void {
         if (this.selected) return;
-        display.drawImage(this.x, this.y, this.width, this.height, "actions/" + this.name + ".png");
+
+        if (this.name === "solana" || this.name === "bitcoin" || this.name === "heater")
+            display.drawImage(
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                "actions/" + this.name + ".png",
+                0,
+                "red"
+            );
+        else if (this.name === "washing-machine" || this.name === "dish-washer")
+            display.drawImage(
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                "actions/" + this.name + ".png",
+                0,
+                "yellow"
+            );
+        else if (this.name === "working" || this.name === "television")
+            display.drawImage(
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                "actions/" + this.name + ".png",
+                0,
+                "green"
+            );
+        else
+            display.drawImage(
+                this.x,
+                this.y,
+                this.width,
+                this.height,
+                "actions/" + this.name + ".png"
+            );
     }
 
     update(dt: number): void {
