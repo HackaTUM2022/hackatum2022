@@ -46,7 +46,7 @@ const GameOverPopUp = ({ score }: Props) => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/matches")
+        fetch("https://api.hackatum.zagar.dev/matches")
             .then((response) => response.json())
             .then((data) => {
                 const newData = data.data.filter(

@@ -2,7 +2,7 @@
 
 export async function getDataFromDatabase() {
     let scoreData = [];
-    await fetch("http://localhost:8080/games", {
+    await fetch("https://api.hackatum.zagar.dev/games", {
         method: "GET",
     })
         .then((response) => response.json())

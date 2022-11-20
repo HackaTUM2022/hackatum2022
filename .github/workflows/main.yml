@@ -5,6 +5,7 @@ on:
     branches:
       - "main"
       - "develop"
+      - "deploy"
 
 env:
   IMAGE_NAME_CLIENT: philippzagar/hackatum-client

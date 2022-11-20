@@ -4,7 +4,7 @@ export class ClientNetworking {
     async startGame(username) {
         try {
             const { data } = await axios.post(
-                "http://localhost:8080/games",
+                "https://api.hackatum.zagar.dev/games",
                 {
                     username: username,
                 }
@@ -20,7 +20,7 @@ export class ClientNetworking {
     async updateGame(gameData) {
         try {
             const { data } = await axios.put(
-                `http://localhost:8080/games`,
+                `https://api.hackatum.zagar.dev/games`,
                 gameData
             );
     
@@ -34,7 +34,7 @@ export class ClientNetworking {
     async getGames() {
         try {
             const { data } = await axios.get(
-                `http://localhost:8080/games`,
+                `https://api.hackatum.zagar.dev/games`,
             );
     
             return data;
@@ -48,7 +48,7 @@ export class ClientNetworking {
         order['request'] = 'add';
         try {
             const { data } = await axios.post(
-                `http://localhost:8080/orders?mockEnergyMarket=true`,
+                `https://api.hackatum.zagar.dev/orders?mockEnergyMarket=true`,
                 order
             );
     
@@ -63,7 +63,7 @@ export class ClientNetworking {
         order['request'] = 'delete';
         try {
             const { data } = await axios.post(
-                `http://localhost:8080/orders`,
+                `https://api.hackatum.zagar.dev/orders`,
                 order
             );
     
@@ -77,7 +77,7 @@ export class ClientNetworking {
     async getOrders() {
         try {
             const { data } = await axios.get(
-                `http://localhost:8080/orders`,
+                `https://api.hackatum.zagar.dev/orders`,
             );
     
             return data;
@@ -90,7 +90,7 @@ export class ClientNetworking {
     async getMatches() {
         try {
             const { data } = await axios.get(
-                `http://localhost:8080/matches`,
+                `https://api.hackatum.zagar.dev/matches`,
             );
     
             return data;
@@ -103,7 +103,7 @@ export class ClientNetworking {
     async getNewDay(dayCounter) {
         try {           
             const { data } = await axios.get(
-                `http://localhost:8080/newDay?isWeekend=${(dayCounter % 6 === 0) || (dayCounter % 7 === 0)}`,
+                `https://api.hackatum.zagar.dev/newDay?isWeekend=${(dayCounter % 6 === 0) || (dayCounter % 7 === 0)}`,
             );
     
             return data;
