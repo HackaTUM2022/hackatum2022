@@ -16,7 +16,7 @@ export class TimeIndicator implements Entity {
 
     render(display: Display): void {
         const x = display.getXPositionFromTime(this.time);
-        const y = display.getDrawableHeight() - 50;
+        const y = display.getDrawableHeight() - 10;
         display.drawText(x, y, this.time.toFixed() + ":00", "bold 40px Arial", "white", true);
     }
 }

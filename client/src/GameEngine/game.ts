@@ -20,6 +20,7 @@ export class Game {
     private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
     private weatherIcons: WeatherIcon[] = [];
+    public timeLines: Entity[] = [];
 
     private lastUpdate: number | undefined;
 
@@ -89,6 +90,8 @@ export class Game {
         for (let i = 3; i < 24; i += 3) {
             this.gui.push(new TimeIndicator(i));
         }
+
+        //add grass
     }
 
     update(time_stamp: number) {
@@ -119,6 +122,13 @@ export class Game {
         //For every object to render
 
         this.player.render(display);
+        display.drawImage(
+            0,
+            display.getDrawableHeight() - 110,
+            display.getDrawableWidth(),
+            110,
+            "gras.png"
+        );
 
         for (let entity of this.entities) {
             entity.render(display);
@@ -136,6 +146,10 @@ export class Game {
         this.productionChart.render(display);
         for (let weatherIcon of this.weatherIcons) {
             weatherIcon.render(display);
+        }
+
+        for (let timeLine of this.timeLines) {
+            timeLine.render(display);
         }
     }
 
@@ -198,6 +212,10 @@ export class Game {
         }
     }
 
+    addToTimeLine(entity: Entity) {
+        this.timeLines.push(entity);
+    }
+
     stop() {
         this.gameEvents.stop();
     }
@@ -206,6 +224,7 @@ export class Game {
         this.isGameOver = true;
         this.gameEvents.onGameOver.next(this.scoreboard.score);
         this.pause();
+        this.stop();
     }
 
     pause() {
@@ -226,15 +245,10 @@ export class Game {
         //     });
         // }
 
+        this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
-        this.tasks = [];
-        this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
-        this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
-        // this.gui.push(Task.createRandom(this));
-
+        this.tasks = this.addDifferentTasks();
         this.networkInterface
             .getNewDay()
             .then((data) => {
@@ -258,6 +272,24 @@ export class Game {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    addDifferentTasks() {
+        let tasks = [];
+        while (tasks.length < 4) {
+            const randomIndex = Math.floor(Math.random() * 6);
+            const task = Task.tasks[randomIndex];
+
+            let selectedIndex = tasks.findIndex((value) => value.getName() === task);
+
+            if (selectedIndex === -1) {
+                tasks.push(
+                    new Task((this.cameraCanvasWidth / 5) * (tasks.length + 1), 200, task, this)
+                );
+            }
+        }
+
+        return tasks;
     }
 
     onTaskPlaced(hour: number) {

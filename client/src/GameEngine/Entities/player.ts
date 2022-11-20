@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { Game } from "../game";
 import { getPlayerPostionData } from "../handsfreeController";
 import { Task } from "./task";
+import { Rectangle } from "./rectangle";
 
 export class Player implements Entity {
     x: number;
@@ -41,31 +42,27 @@ export class Player implements Entity {
         if (this.game.isGamePaused) return;
 
         if (this.firstTaskPose(this.display) && !this.game.tasks[0].selected) {
-            // console.log("FIRST");
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
             this.game.onTaskPlaced(hour);
-            this.setSelectedPosition(this.game.tasks[0], 0, this.display);
+            this.setSelectedPosition(this.game.tasks[0], this.display, 0);
         }
 
         if (this.secondTaskPose(this.display) && !this.game.tasks[1].selected) {
-            // console.log("SECOND");
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
             this.game.onTaskPlaced(hour);
-            this.setSelectedPosition(this.game.tasks[1], 1, this.display);
+            this.setSelectedPosition(this.game.tasks[1], this.display, 1);
         }
 
         if (this.thirdTaskPose(this.display) && !this.game.tasks[2].selected) {
-            // console.log("THIRD");
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
             this.game.onTaskPlaced(hour);
-            this.setSelectedPosition(this.game.tasks[2], 2, this.display);
+            this.setSelectedPosition(this.game.tasks[2], this.display, 2);
         }
 
         if (this.fourthTaskPose(this.display) && !this.game.tasks[3].selected) {
-            // console.log("FOURTH");
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
             this.game.onTaskPlaced(hour);
-            this.setSelectedPosition(this.game.tasks[3], 3, this.display);
+            this.setSelectedPosition(this.game.tasks[3], this.display, 3);
         }
     }
 
@@ -119,10 +116,28 @@ export class Player implements Entity {
 
     handleInput(controller: Controller) {}
 
-    setSelectedPosition(task: Task, index: number, display: Display) {
-        const time = this.game.getTime();
-        const duration = task.getDuration(index);
+    setSelectedPosition(task: Task, display: Display, index: number) {
+        const time = this.game.getTime().getCurrentTimeInPercentOfDay() * 24;
+        const duration = task.getDuration(task.name);
         task.selected = true;
+
+        const newX = display.getXPositionFromTime(time);
+        const newY = display.getDrawableHeight() - 50;
+        this.game.addToTimeLine(
+            new Rectangle(
+                newX,
+                newY - index * task.height - 100,
+                display.getXPositionFromTime(time + (duration ? duration : 0)) - newX,
+                task.height - 20,
+                "#746C70",
+                0.9,
+                "#4E4F50"
+            )
+        );
+
+        this.game.addToTimeLine(
+            new Task(newX, newY - index * task.height - 110, task.name, this.game)
+        );
     }
 
     playerTouchesTask(task: Task, display: Display) {

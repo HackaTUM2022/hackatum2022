@@ -75,7 +75,7 @@ export class GameOverPopUp extends Component<IProps, IState> {
         fetch('http://localhost:8080/matches')
             .then(response => response.json())
             .then(data => {
-                this.data = data.data
+                this.data = data.data.filter((item: any) => item.buyer === this.state.username || item.seller === this.state.username);
             })
             .catch(error => console.log(error));
     }

@@ -12,7 +12,7 @@
     .gameover {
         background: white;
         width: 50%;
-        height: 50%;
+        height: 80%;
         min-height: 400px;
         border-radius: 5px;
         text-align: center;
@@ -65,7 +65,7 @@
         box-shadow: 0 3px 10px rgb(0 0 0 / 0.5);
     }
 
-    .gameover > h2 {
+    .gameover>h2 {
         font-weight: bolder;
     }
 
