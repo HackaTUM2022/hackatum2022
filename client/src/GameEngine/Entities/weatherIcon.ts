@@ -14,8 +14,8 @@ export class WeatherIcon implements Entity {
     static weatherTypes = ["sunny", "cloudy", "rainy"];
 
     constructor(time: number, weather: string) {
-        this.height = 128;
-        this.width = 128;
+        this.height = 100;
+        this.width = 100;
         this.time = time;
         this.weather = weather;
     }
@@ -25,7 +25,7 @@ export class WeatherIcon implements Entity {
     render(display: Display): void {
         if (this.weather === undefined) return;
         const x = display.getXPositionFromTime(this.time);
-        const y = 200;
+        const y = 40;
 
         display.drawImage(
             x - this.width / 2,

@@ -243,12 +243,6 @@ export class Game {
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
         this.tasks = this.addDifferentTasks();
-        // this.tasks.push(new Task(this.cameraCanvasWidth / 5, 70, "washing-machine", this));
-        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 2, 70, "dish-washer", this));
-        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 3, 70, "working", this));
-        // this.tasks.push(new Task((this.cameraCanvasWidth / 5) * 4, 70, "solana", this));
-        // this.gui.push(Task.createRandom(this));
-
         this.networkInterface
             .getNewDay()
             .then((data) => {
@@ -283,7 +277,7 @@ export class Game {
 
             if (selectedIndex === -1) {
                 tasks.push(
-                    new Task((this.cameraCanvasWidth / 5) * (tasks.length + 1), 70, task, this)
+                    new Task((this.cameraCanvasWidth / 5) * (tasks.length + 1), 200, task, this)
                 );
             }
         }

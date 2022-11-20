@@ -24,8 +24,8 @@ export class Task implements Entity {
         ["bitcoin", 4],
     ]);
 
-    public width: number = 64;
-    public height: number = 64;
+    public width: number = 110;
+    public height: number = 110;
     public selected: boolean;
 
     id = uuid();
