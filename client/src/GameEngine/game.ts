@@ -12,6 +12,8 @@ import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
 import { Chart } from "./Entities/chart";
 import { WeatherIcon } from "./Entities/weatherIcon";
+import { Rectangle } from "./Entities/rectangle";
+import { ScreenFader } from "./Entities/screenFader";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -26,7 +28,6 @@ export class Game {
 
     private static readonly PRODUCTION_CHART_COLOR = "rgb(0, 255, 0, 0.45)";
     private static readonly CONSUMPTION_CHART_COLOR = "rgb(255, 0, 0, 0.45)";
-    
 
     private player: Player;
     private productionChart = new Chart([], Game.PRODUCTION_CHART_COLOR);
@@ -37,6 +38,7 @@ export class Game {
     private dayConsumption: [number] = [0];
     private dayProduction: [number] = [0];
     private dayWeather: [number] = [0]; // encoding: 0 = sunny, 1 = cloudy, 2 = rainy
+    private screenFader: ScreenFader;
 
     public currentWidth = 0;
     public currentHeight = 0;
@@ -65,7 +67,7 @@ export class Game {
         this.time = new Time(30000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
-
+        this.screenFader = new ScreenFader(0, this.cameraCanvasHeight, this.time, "black", 0.5);
         this.initAssets();
     }
 
@@ -90,7 +92,6 @@ export class Game {
         for (let i = 3; i < 24; i += 3) {
             this.gui.push(new TimeIndicator(i));
         }
-
         //add grass
     }
 
@@ -116,6 +117,8 @@ export class Game {
             }
         }
         this.time.update(time_stamp, () => this.onDayStart());
+
+        this.screenFader.update(dt);
     }
 
     render(display: Display) {
@@ -143,6 +146,7 @@ export class Game {
         }
 
         this.chart.render(display);
+
         this.productionChart.render(display);
         for (let weatherIcon of this.weatherIcons) {
             weatherIcon.render(display);
@@ -151,6 +155,7 @@ export class Game {
         for (let timeLine of this.timeLines) {
             timeLine.render(display);
         }
+        this.screenFader.render(display);
     }
 
     handleInput(controller: Controller) {

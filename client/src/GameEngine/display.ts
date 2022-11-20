@@ -134,23 +134,6 @@ export class Display {
             this.buffer.shadowColor = prevShadowColor;
 
             this.buffer.rotate(-angle);
-            // if (name === "actions/working.png" || name === "actions/television.png") {
-            //     this.buffer.shadowColor = "green";
-            //     this.buffer.shadowBlur = 15;
-            // } else if (
-            //     name === "actions/washing-machine.png" ||
-            //     name === "actions/dish-washer.png"
-            // ) {
-            //     this.buffer.shadowColor = "yellow";
-            //     this.buffer.shadowBlur = 15;
-            // } else if (
-            //     name === "actions/solana.png" ||
-            //     name === "actions/bitcoin.png" ||
-            //     name === "actions/heating.png"
-            // ) {
-            //     this.buffer.shadowColor = "red";
-            //     this.buffer.shadowBlur = 15;
-            // }
         } else {
             // this.drawRectangle(x, y, width, height, "red");
         }
