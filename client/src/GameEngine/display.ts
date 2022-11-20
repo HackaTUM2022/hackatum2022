@@ -36,6 +36,7 @@ export class Display {
 
         let toLoad = Task.getImagesToLoad();
         toLoad = [...toLoad, ...WeatherIcon.getImagesToLoad()];
+        toLoad.push("gras.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
@@ -101,12 +102,7 @@ export class Display {
             let yc = (points[i].y + points[i + 1].y) / 2;
             this.buffer.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
         }
-        this.buffer.quadraticCurveTo(
-            points[i].x,
-            points[i].y,
-            points[i + 1].x,
-            points[i + 1].y
-        );
+        this.buffer.quadraticCurveTo(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         this.buffer.stroke();
     }
 

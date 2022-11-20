@@ -85,6 +85,8 @@ export class Game {
         for (let i = 3; i < 24; i += 3) {
             this.gui.push(new TimeIndicator(i));
         }
+
+        //add grass
     }
 
     update(time_stamp: number) {
@@ -115,6 +117,13 @@ export class Game {
         //For every object to render
 
         this.player.render(display);
+        display.drawImage(
+            0,
+            display.getDrawableHeight() - 100,
+            display.getDrawableWidth(),
+            100,
+            "gras.png"
+        );
 
         for (let entity of this.entities) {
             entity.render(display);
