@@ -36,7 +36,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 <canvas></canvas>
 
                 {this.state.gameOverScore !== undefined && (
-                    <GameOverPopUp score={this.state.gameOverScore} />
+                    <GameOverPopUp score={this.state.days} />
                 )}
 
                 <GameInfo days={this.state.days} money={this.state.money} />

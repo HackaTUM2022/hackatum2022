@@ -200,6 +200,7 @@ export class Game {
         this.isGameOver = true;
         this.gameEvents.onGameOver.next(this.scoreboard.score);
         this.pause();
+        this.stop();
     }
 
     pause() {
@@ -257,11 +258,11 @@ export class Game {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
         console.log(
             "[HAMUDI] Task placed at " +
-                hour +
-                " with money " +
-                this.money +
-                " and energy delta: " +
-                energyDelta
+            hour +
+            " with money " +
+            this.money +
+            " and energy delta: " +
+            energyDelta
         );
         if (energyDelta > 0) {
             this.networkInterface
