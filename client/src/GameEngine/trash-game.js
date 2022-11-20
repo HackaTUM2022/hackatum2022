@@ -35,6 +35,12 @@ export class TrashGame {
         this.engine.start();
     }
 
+    setUsername(username) {
+        if(this.game) {
+            this.game.username = username;
+        }
+    }
+
     onStart(time_stamp) {
         if(this.game !== undefined) 
             this.game.onStart(time_stamp);

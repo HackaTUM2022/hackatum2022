@@ -15,6 +15,7 @@ interface IState {
     money: number;
     gameState: "initial" | "running";
     isExploding: boolean;
+    username: string;
 }
 
 export class GameEngineComponent extends Component<IProps, IState> {
@@ -31,6 +32,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
             money: 100,
             gameState: "initial",
             isExploding: false,
+            username: "",
         };
         this.handsfreeLoaded = props.handsfreeLoaded;
     }
@@ -49,40 +51,56 @@ export class GameEngineComponent extends Component<IProps, IState> {
                         <div>
                             <h2 className="title">SOLAYES</h2>
                         </div>
-                        <button
-                            className="button"
-                            onClick={() => {
-                                this.setState({ gameState: "running" });
-                                if (this.game !== undefined) {
-                                    this.restartGame();
+                        <div className="inputField">
+                            <input
+                                type="text"
+                                placeholder="username"
+                                value={this.state.username}
+                                onChange={(event: any) => {
+                                    this.setState({ username: event.target.value });
+                                    if (this.game) {
+                                        this.game.setUsername(event.target.value);
+                                    }
+                                }}
+                            ></input>
+                            <button
+                                className="button"
+                                onClick={() => {
+                                    this.setState({ gameState: "running" });
+                                    if (this.game !== undefined) {
+                                        this.restartGame();
 
-                                    if (!this.game) return;
-                                    if (!this.game.game) return;
+                                        if (!this.game) return;
+                                        if (!this.game.game) return;
 
-                                    let gameEvents = this.game.game.gameEvents;
-                                    gameEvents.onGameOver.subscribe((score) => {
-                                        this.setState({
-                                            gameOverScore: score,
+                                        let gameEvents = this.game.game.gameEvents;
+                                        gameEvents.onGameOver.subscribe((score) => {
+                                            this.setState({
+                                                gameOverScore: score,
+                                            });
                                         });
-                                    });
-                                    gameEvents.onDaysChange.subscribe((days) => {
-                                        this.setState({ days: days });
-                                    });
-                                    gameEvents.onMoneyChange.subscribe((money) => {
-                                        this.setState({ money: money });
-                                    });
-                                    this.game.start();
-                                }
-                            }}
-                            disabled={!this.handsfreeLoaded}
-                        >
-                            <span>{this.handsfreeLoaded ? "START GAME" : "LOADING MODEL..."}</span>
-                        </button>
+                                        gameEvents.onDaysChange.subscribe((days) => {
+                                            this.setState({ days: days });
+                                        });
+                                        gameEvents.onMoneyChange.subscribe((money) => {
+                                            this.setState({ money: money });
+                                        });
+                                        this.game.setUsername(this.state.username);
+                                        this.game.start();
+                                    }
+                                }}
+                                disabled={!this.handsfreeLoaded || !this.state.username}
+                            >
+                                <span>
+                                    {this.handsfreeLoaded ? "START GAME" : "LOADING MODEL..."}
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 )}
 
                 {this.state.gameOverScore !== undefined && (
-                    <GameOverPopUp score={this.state.days} />
+                    <GameOverPopUp score={this.state.days} username={this.state.username} />
                 )}
 
                 <div
