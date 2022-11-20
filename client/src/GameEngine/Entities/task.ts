@@ -14,6 +14,16 @@ export class Task implements Entity {
         "bitcoin",
     ];
 
+    public energyConsumption = new Map<string, number>([
+        ["washing-machine", 2],
+        ["working", 1],
+        ["solana", 3],
+        ["dish-washer", 2],
+        ["television", 1],
+        ["heater", 3],
+        ["bitcoin", 3],
+    ]);
+
     private durations = new Map<string, number>([
         ["washing-machine", 2],
         ["working", 8],

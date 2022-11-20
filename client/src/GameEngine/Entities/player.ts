@@ -43,25 +43,25 @@ export class Player implements Entity {
 
         if (this.firstTaskPose(this.display) && !this.game.tasks[0].selected) {
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
-            this.game.onTaskPlaced(hour);
+            this.game.onTaskPlaced(hour, this.game.tasks[0].energyConsumption.get(this.game.tasks[0].name) || 1);
             this.setSelectedPosition(this.game.tasks[0], this.display, 0);
         }
 
         if (this.secondTaskPose(this.display) && !this.game.tasks[1].selected) {
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
-            this.game.onTaskPlaced(hour);
+            this.game.onTaskPlaced(hour, this.game.tasks[1].energyConsumption.get(this.game.tasks[1].name) || 1);
             this.setSelectedPosition(this.game.tasks[1], this.display, 1);
         }
 
         if (this.thirdTaskPose(this.display) && !this.game.tasks[2].selected) {
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
-            this.game.onTaskPlaced(hour);
+            this.game.onTaskPlaced(hour, this.game.tasks[2].energyConsumption.get(this.game.tasks[2].name) || 1);
             this.setSelectedPosition(this.game.tasks[2], this.display, 2);
         }
 
         if (this.fourthTaskPose(this.display) && !this.game.tasks[3].selected) {
             const hour = Math.floor(this.game.time.getCurrentTimeInPercentOfDay() * 24);
-            this.game.onTaskPlaced(hour);
+            this.game.onTaskPlaced(hour, this.game.tasks[3].energyConsumption.get(this.game.tasks[3].name) || 1);
             this.setSelectedPosition(this.game.tasks[3], this.display, 3);
         }
     }

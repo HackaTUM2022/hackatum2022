@@ -51,12 +51,12 @@ export class Game {
     // One out of 4 changes of increasing difficulty on addPoints
     public readonly increaseDiffChance: number = 1 / 4;
 
-    public isGamePaused: boolean = false;
+    public isGamePaused: boolean = true;
     public isGameOver: boolean = false;
 
     public gameEvents: GameEventController;
 
-    constructor(display: Display, serverId: string) {
+    constructor(display: Display) {
         this.currentWidth = display.context.canvas.width;
         this.currentHeight = display.context.canvas.height;
 
@@ -64,7 +64,7 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.gameEvents = new GameEventController();
-        this.time = new Time(20000);
+        this.time = new Time(30000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
         this.screenFader = new ScreenFader(0, this.cameraCanvasHeight, this.time, "black", 0.5);
@@ -115,10 +115,9 @@ export class Game {
             for (let task of this.tasks) {
                 task.update(dt);
             }
+            this.time.update(time_stamp, () => this.onDayStart());
+            this.screenFader.update(dt);
         }
-        this.time.update(time_stamp, () => this.onDayStart());
-
-        this.screenFader.update(dt);
     }
 
     render(display: Display) {
@@ -251,12 +250,7 @@ export class Game {
         // }
 
         // Decrease the time's dayLength based on the difficulty level
-
-        this.time.setDayLength(
-            Math.max(this.time.getDayLength() * 0.8, 5000)
-        );
-
-
+        this.time.setDayLength(Math.max(this.time.getDayLength() * 0.8, 5000));
 
         this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
@@ -305,8 +299,9 @@ export class Game {
         return tasks;
     }
 
-    onTaskPlaced(hour: number) {
+    onTaskPlaced(hour: number, consumptionMultiplier: number) {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
+        const unitPrice = 10;
         console.log(
             "[HAMUDI] Task placed at " +
                 hour +
@@ -319,7 +314,7 @@ export class Game {
             this.networkInterface
                 .addOrder({
                     user: "test", // TODO: Get user from login
-                    price: 10, // TODO: decide on price
+                    price: unitPrice, // TODO: decide on price
                     side: "sell",
                     security: "solar",
                     qty: energyDelta * 5, // TODO: decide on qty
@@ -334,10 +329,10 @@ export class Game {
             this.networkInterface
                 .addOrder({
                     user: "test", // TODO: Get user from login
-                    price: 10, // TODO: decide on price
+                    price: unitPrice, // TODO: decide on price
                     side: "buy",
                     security: "coal",
-                    qty: energyDelta * 5, // TODO: decide on qty
+                    qty: energyDelta * consumptionMultiplier * 5, // TODO: decide on qty
                 })
                 .then((data) => {
                     // log here maybe
@@ -347,7 +342,7 @@ export class Game {
                 });
         }
 
-        this.money += Math.floor(energyDelta * 10 * 5); // * price * scale factor
+        this.money += Math.floor(energyDelta * unitPrice * consumptionMultiplier * 5); // * price * scale factor
         // this.money = -1; // use for testing game over transition
         console.log("[HAMUDI] Updating money at hour " + hour + " to " + this.money);
 
