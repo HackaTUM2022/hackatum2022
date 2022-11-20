@@ -236,7 +236,7 @@ export class Game {
                 this.dayConsumption = data.consumption.map((value: any) => value[1]);
                 this.dayProduction = data.production.map((value: any) => value[1]);
                 this.dayWeather = data.weather;
-                this.chart = new Chart(this.dayWeather);
+                this.chart = new Chart(this.dayProduction);
 
                 // day weather icons
                 this.weatherIcons = [];

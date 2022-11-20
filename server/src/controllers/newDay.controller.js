@@ -154,7 +154,7 @@ const generateDailyProduction = (weather) => {
     // Generate a production profile based on the weather
     let production = [];
     for (let i = 0; i < weather.length; i++) {
-        production.push([i, weather[i] * weatherBaseProduction[i][1]]);
+        production.push([i, weather[i] * weatherBaseProduction[i][1] / 2]);
     }
 
     return production;
