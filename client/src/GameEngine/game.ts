@@ -13,6 +13,7 @@ import { Chart } from "./Entities/chart";
 import { WeatherIcon } from "./Entities/weatherIcon";
 import { ScreenFader } from "./Entities/screenFader";
 import { Light } from "./Entities/light";
+import { BlinkingRectangle } from "./Entities/blinkingRectangle";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -22,6 +23,7 @@ export class Game {
     public tasks: Task[] = [];
     private weatherIcons: WeatherIcon[] = [];
     public timeLines: Entity[] = [];
+    public blinkingRect!: BlinkingRectangle;
 
     private lastUpdate: number | undefined;
 
@@ -92,7 +94,15 @@ export class Game {
         for (let i = 3; i < 24; i += 3) {
             this.gui.push(new TimeIndicator(i));
         }
-        //add grass
+        this.blinkingRect = new BlinkingRectangle(
+            0,
+            0,
+            this.currentWidth,
+            this.currentHeight,
+            "#FF000025",
+            0.4,
+            ""
+        );
     }
 
     update(time_stamp: number) {
@@ -117,6 +127,7 @@ export class Game {
             }
             this.time.update(time_stamp, () => this.onDayStart());
             this.screenFader.update(dt);
+            this.blinkingRect.update(dt);
         }
     }
 
@@ -154,6 +165,8 @@ export class Game {
         for (let task of this.tasks) {
             task.render(display);
         }
+
+        this.blinkingRect.render(display);
     }
 
     handleInput(controller: Controller) {
@@ -203,6 +216,8 @@ export class Game {
         if (this.scoreboard.lifes === 0) {
             this.onGameOver();
         }
+
+        this.blinkingRect.blink();
     }
 
     removeEntity(uuid: string) {
@@ -325,6 +340,8 @@ export class Game {
                     console.log(err);
                 });
         } else if (energyDelta < 0) {
+            this.blinkingRect.blink();
+
             this.networkInterface
                 .addOrder({
                     user: "test", // TODO: Get user from login

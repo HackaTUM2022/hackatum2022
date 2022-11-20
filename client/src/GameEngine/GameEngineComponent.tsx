@@ -125,12 +125,7 @@ export class GameEngineComponent extends Component<IProps, IState> {
     }
 
     componentDidUpdate(prevProps: IProps, prevState: IState) {
-        console.log("componentDidUpdate", this.state.money);
-        console.log("prevState", prevState.money);
-
         if (this.state.money > prevState.money) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", this.state.money);
-            console.log(this.state.isExploding);
             // Confetti !
             this.setState({ isExploding: true });
             setTimeout(() => {
