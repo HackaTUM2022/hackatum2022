@@ -57,9 +57,26 @@ export class Display {
         this.buffer.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    drawRectangle(x: number, y: number, width: number, height: number, color: string) {
+    drawRectangle(
+        x: number,
+        y: number,
+        width: number,
+        height: number,
+        color: string,
+        alpha: number = 1,
+        strokeStyle: string
+    ) {
         this.buffer.fillStyle = color;
+        this.buffer.globalAlpha = alpha;
+        const prevStrokeStyle = this.buffer.strokeStyle;
+
+        this.buffer.strokeStyle = strokeStyle;
+        this.buffer.lineWidth = 10;
+        this.buffer.strokeRect(x, y, width, height);
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
+
+        this.buffer.globalAlpha = 1;
+        this.buffer.strokeStyle = prevStrokeStyle;
     }
 
     drawCircle(x: number, y: number, radius: number, color: string) {
@@ -67,6 +84,7 @@ export class Display {
         this.buffer.arc(x + radius, y + radius, radius, 0, 2 * Math.PI, false);
         this.buffer.fillStyle = color;
         this.buffer.fill();
+        this.buffer.stroke();
     }
 
     drawSmoothCurve(points: any, color: string) {

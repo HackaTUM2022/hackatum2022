@@ -14,7 +14,15 @@ export class Task implements Entity {
         "bitcoin",
     ];
 
-    private durations = [2, 8, 3, 2, 2, 5, 4];
+    private durations = new Map<string, number>([
+        ["washing-machine", 2],
+        ["working", 8],
+        ["solana", 3],
+        ["dish-washer", 2],
+        ["television", 2],
+        ["heater", 5],
+        ["bitcoin", 4],
+    ]);
 
     public width: number = 64;
     public height: number = 64;
@@ -42,8 +50,8 @@ export class Task implements Entity {
         return this.selected;
     }
 
-    getDuration(index: number) {
-        return this.durations[index];
+    getDuration(name: string) {
+        return this.durations.get(name);
     }
 
     render(display: Display): void {

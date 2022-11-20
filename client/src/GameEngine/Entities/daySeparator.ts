@@ -20,7 +20,9 @@ export class DaySeparator implements Entity {
             0,
             20,
             display.cameraCanvasHeight,
-            "red"
+            "red",
+            1,
+            "#000"
         );
     }
 }

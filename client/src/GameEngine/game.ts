@@ -20,6 +20,7 @@ export class Game {
     private networkInterface = new ClientNetworking();
     public tasks: Task[] = [];
     private weatherIcons: WeatherIcon[] = [];
+    public timeLines: Entity[] = [];
 
     private lastUpdate: number | undefined;
 
@@ -131,6 +132,10 @@ export class Game {
         for (let weatherIcon of this.weatherIcons) {
             weatherIcon.render(display);
         }
+
+        for (let timeLine of this.timeLines) {
+            timeLine.render(display);
+        }
     }
 
     handleInput(controller: Controller) {
@@ -192,6 +197,10 @@ export class Game {
         }
     }
 
+    addToTimeLine(entity: Entity) {
+        this.timeLines.push(entity);
+    }
+
     stop() {
         this.gameEvents.stop();
     }
@@ -221,6 +230,7 @@ export class Game {
             });
         }
 
+        this.timeLines = [];
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
         this.tasks = [];
@@ -258,11 +268,11 @@ export class Game {
         const energyDelta = this.dayProduction[hour] - this.dayConsumption[hour];
         console.log(
             "[HAMUDI] Task placed at " +
-            hour +
-            " with money " +
-            this.money +
-            " and energy delta: " +
-            energyDelta
+                hour +
+                " with money " +
+                this.money +
+                " and energy delta: " +
+                energyDelta
         );
         if (energyDelta > 0) {
             this.networkInterface
