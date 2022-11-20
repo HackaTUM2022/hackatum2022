@@ -45,6 +45,10 @@ export class GameEngineComponent extends Component<IProps, IState> {
                 )}
                 {this.state.gameState === "initial" && (
                     <div className="start-screen-overlay">
+                        {/* <div className="container"></div> */}
+                        <div>
+                            <h2 className="title">SOLAYES</h2>
+                        </div>
                         <button
                             className="button"
                             onClick={() => {
