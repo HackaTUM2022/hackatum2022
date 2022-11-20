@@ -23,8 +23,13 @@ export class Game {
 
     private lastUpdate: number | undefined;
 
+    private static readonly PRODUCTION_CHART_COLOR = "rgb(0, 255, 0, 0.45)";
+    private static readonly CONSUMPTION_CHART_COLOR = "rgb(255, 0, 0, 0.45)";
+    
+
     private player: Player;
-    private chart = new Chart([]);
+    private productionChart = new Chart([], Game.PRODUCTION_CHART_COLOR);
+    private chart = new Chart([], Game.CONSUMPTION_CHART_COLOR);
     private scoreboard = new Scoreboard(this);
     public time: Time;
     private money: number;
@@ -56,7 +61,7 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.gameEvents = new GameEventController();
-        this.time = new Time(10000);
+        this.time = new Time(20000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
 
@@ -128,6 +133,7 @@ export class Game {
         }
 
         this.chart.render(display);
+        this.productionChart.render(display);
         for (let weatherIcon of this.weatherIcons) {
             weatherIcon.render(display);
         }
@@ -211,14 +217,14 @@ export class Game {
     }
 
     onDayStart() {
-        if (this.time.getDaysCount() !== 1) {
-            this.tasks.forEach((task) => {
-                if (!task.selected) {
-                    this.onGameOver();
-                    return;
-                }
-            });
-        }
+        // if (this.time.getDaysCount() !== 1) {
+        //     this.tasks.forEach((task) => {
+        //         if (!task.selected) {
+        //             this.onGameOver();
+        //             return;
+        //         }
+        //     });
+        // }
 
         this.gameEvents.onDaysChange.next(this.time.getDaysCount());
 
@@ -235,7 +241,8 @@ export class Game {
                 this.dayConsumption = data.consumption.map((value: any) => value[1]);
                 this.dayProduction = data.production.map((value: any) => value[1]);
                 this.dayWeather = data.weather;
-                this.chart = new Chart(this.dayProduction);
+                this.productionChart = new Chart(this.dayProduction, Game.PRODUCTION_CHART_COLOR);
+                this.chart = new Chart(this.dayConsumption, Game.CONSUMPTION_CHART_COLOR);
 
                 // day weather icons
                 this.weatherIcons = [];

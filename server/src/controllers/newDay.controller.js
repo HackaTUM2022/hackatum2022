@@ -9,7 +9,7 @@ const weekdayBaseDistribution = [
     [3, 0.1],
     [4, 0.1],
     [5, 0.13],
-    [6, 0.25],
+    [6, 0.35],
     [7, 0.62],
     [8, 0.67],
     [9, 0.63],
@@ -36,9 +36,9 @@ const weekendBaseDistribution = [
     [2, 0.25],
     [3, 0.1],
     [4, 0.1],
-    [5, 0.13],
-    [6, 0.2],
-    [7, 0.25],
+    [5, 0.23],
+    [6, 0.27],
+    [7, 0.29],
     [8, 0.3],
     [9, 0.5],
     [10, 0.7],
@@ -57,7 +57,7 @@ const weekendBaseDistribution = [
     [23, 0.47],
 ]
 
-const WEATHER_MULT = [1.0, 0.3, 0.05]
+const WEATHER_MULT = [2.0, 1, 0.25]
 // Daily clean energy production profile (based on the average production in Germany (c) Statistisches Bundesamt)
 const weatherBaseProduction = [
     [0, 0],
@@ -132,13 +132,15 @@ const generateDailyConsumption = (isWeekend) => {
     };
 
     const generateConsumptionDistribution = (baseDistribution) => {
+        // Make a copy of the base distribution
+        let distribution = baseDistribution.map(x => x.slice());
 
         // add some random noise
-        for (let i = 0; i < baseDistribution.length; i++) {
-            baseDistribution[i][1] += Math.random() * 0.1 - 0.05;
+        for (let i = 0; i < distribution.length; i++) {
+            distribution[i][1] += Math.random() * 0.15 - 0.25;
         }
 
-        return baseDistribution;
+        return distribution;
     };
 
     return generateConsumptionDistribution(isWeekend ? weekendBaseDistribution : weekdayBaseDistribution);
@@ -154,7 +156,7 @@ const generateDailyProduction = (weather) => {
     // Generate a production profile based on the weather
     let production = [];
     for (let i = 0; i < weather.length; i++) {
-        production.push([i, weather[i] * weatherBaseProduction[i][1] / 2]);
+        production.push([i, WEATHER_MULT[weather[i]] * weatherBaseProduction[i][1] / 2]);
     }
 
     return production;

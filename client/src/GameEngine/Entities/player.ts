@@ -88,7 +88,7 @@ export class Player implements Entity {
                 display.relYToAbs(startPoint.y),
                 display.relXToAbs(endPoint.x),
                 display.relYToAbs(endPoint.y),
-                "#00FF00"
+                "rgba(255, 255, 255, 0.5)"
             );
         };
 
@@ -97,7 +97,7 @@ export class Player implements Entity {
                 display.relXToAbs(point.x),
                 display.relYToAbs(point.y),
                 20,
-                "#FF2E2E"
+                "#C4C4C4"
             );
         };
 

@@ -4,11 +4,13 @@ import { v4 as uuid } from "uuid";
 
 export class Chart implements Entity {
     dayData: number[];
+    color: string;
     x: number = 0;
     y: number = 0;
     id = uuid();
-    constructor(dayData: number[]) {
+    constructor(dayData: number[], color: string) {
         this.dayData = dayData;
+        this.color = color;
     }
 
     update(dt: number): void {}
@@ -29,6 +31,6 @@ export class Chart implements Entity {
             });
         }
         console.log(this.dayData);
-        display.drawSmoothCurve(points, "#FDAD0E");
+        display.drawSmoothCurve(points, this.color);
     }
 }
