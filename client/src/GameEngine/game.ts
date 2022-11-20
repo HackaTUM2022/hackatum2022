@@ -119,9 +119,9 @@ export class Game {
         this.player.render(display);
         display.drawImage(
             0,
-            display.getDrawableHeight() - 100,
+            display.getDrawableHeight() - 110,
             display.getDrawableWidth(),
-            100,
+            110,
             "gras.png"
         );
 

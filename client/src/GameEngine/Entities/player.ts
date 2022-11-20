@@ -126,7 +126,7 @@ export class Player implements Entity {
         this.game.addToTimeLine(
             new Rectangle(
                 newX,
-                newY - index * task.height,
+                newY - index * task.height - 100,
                 display.getXPositionFromTime(time + (duration ? duration : 0)) - newX,
                 task.height - 20,
                 "#746C70",
@@ -136,7 +136,7 @@ export class Player implements Entity {
         );
 
         this.game.addToTimeLine(
-            new Task(newX, newY - index * task.height - 10, task.name, this.game)
+            new Task(newX, newY - index * task.height - 110, task.name, this.game)
         );
     }
 
