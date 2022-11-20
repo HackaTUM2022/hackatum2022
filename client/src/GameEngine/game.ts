@@ -10,6 +10,7 @@ import { Time } from "./time";
 import { DaySeparator } from "./Entities/daySeparator";
 import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
+import { Chart } from "./Entities/chart";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -21,6 +22,7 @@ export class Game {
     private lastUpdate: number | undefined;
 
     private player: Player;
+    private chart = new Chart([]);
     private scoreboard = new Scoreboard(this);
     public time: Time;
     private money: number;
@@ -122,6 +124,8 @@ export class Game {
         for (let task of this.tasks) {
             task.render(display);
         }
+
+        this.chart.render(display);
     }
 
     handleInput(controller: Controller) {
@@ -216,6 +220,7 @@ export class Game {
             this.dayConsumption = data.consumption.map((value: any) => value[1]);
             this.dayProduction = data.production.map((value: any) => value[1]);
             this.dayWeather = data.weather;
+            this.chart = new Chart(this.dayWeather);
         }).catch((err) => {
             console.log(err);
         });

@@ -67,6 +67,27 @@ export class Display {
         this.buffer.fill();
     }
 
+    drawSmoothCurve(points: any, color: string) {
+        this.buffer.beginPath();
+        this.buffer.strokeStyle = color;
+        this.buffer.lineWidth = 20;
+        this.buffer.moveTo(points[0].x, points[0].y);
+        let i = 1;
+
+        for (i = 1; i < points.length - 2; i++) {
+            let xc = (points[i].x + points[i + 1].x) / 2;
+            let yc = (points[i].y + points[i + 1].y) / 2;
+            this.buffer.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+        }
+        this.buffer.quadraticCurveTo(
+            points[i].x,
+            points[i].y,
+            points[i + 1].x,
+            points[i + 1].y
+        );
+        this.buffer.stroke();
+    }
+
     drawImage(
         x: number,
         y: number,
