@@ -64,15 +64,17 @@ export class Display {
         height: number,
         color: string,
         alpha: number = 1,
-        strokeStyle: string
+        strokeStyle?: string
     ) {
         this.buffer.fillStyle = color;
         this.buffer.globalAlpha = alpha;
         const prevStrokeStyle = this.buffer.strokeStyle;
+        if (strokeStyle !== undefined) {
+            this.buffer.strokeStyle = strokeStyle;
+            this.buffer.lineWidth = 10;
+            this.buffer.strokeRect(x, y, width, height);
+        }
 
-        this.buffer.strokeStyle = strokeStyle;
-        this.buffer.lineWidth = 10;
-        this.buffer.strokeRect(x, y, width, height);
         this.buffer.fillRect(Math.floor(x), Math.floor(y), width, height);
 
         this.buffer.globalAlpha = 1;
