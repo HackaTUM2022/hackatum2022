@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./client
-          file: ./client/Dockerfile
+          file: ./client/DockerfileDeploy
           tags: ${{ env.IMAGE_NAME_CLIENT }}
           push: true
           platforms: linux/amd64,linux/arm64
@@ -97,6 +97,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd hackatum
-            sudo docker compose -f docker-compose.deploy.yml down
-            sudo docker compose -f docker-compose.deploy.yml pull
-            sudo docker compose -f docker-compose.deploy.yml up -d
+            docker compose -f docker-compose.deploy.yml down
+            docker compose -f docker-compose.deploy.yml pull
+            docker compose -f docker-compose.deploy.yml up -d
