@@ -1,5 +1,6 @@
 import { ImageLoader } from "./imageloader";
 import { Task } from "./Entities/task";
+import { WeatherIcon } from "./Entities/weatherIcon";
 
 export class Display {
     buffer: CanvasRenderingContext2D;
@@ -34,6 +35,7 @@ export class Display {
         this.camDebugCanvasContext = this.camDebugCanvas.getContext("2d");
 
         let toLoad = Task.getImagesToLoad();
+        toLoad = [...toLoad, ...WeatherIcon.getImagesToLoad()];
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
@@ -65,6 +67,27 @@ export class Display {
         this.buffer.arc(x + radius, y + radius, radius, 0, 2 * Math.PI, false);
         this.buffer.fillStyle = color;
         this.buffer.fill();
+    }
+
+    drawSmoothCurve(points: any, color: string) {
+        this.buffer.beginPath();
+        this.buffer.strokeStyle = color;
+        this.buffer.lineWidth = 20;
+        this.buffer.moveTo(points[0].x, points[0].y);
+        let i = 1;
+
+        for (i = 1; i < points.length - 2; i++) {
+            let xc = (points[i].x + points[i + 1].x) / 2;
+            let yc = (points[i].y + points[i + 1].y) / 2;
+            this.buffer.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+        }
+        this.buffer.quadraticCurveTo(
+            points[i].x,
+            points[i].y,
+            points[i + 1].x,
+            points[i + 1].y
+        );
+        this.buffer.stroke();
     }
 
     drawImage(
