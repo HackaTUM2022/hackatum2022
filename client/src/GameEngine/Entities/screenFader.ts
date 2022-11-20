@@ -26,6 +26,13 @@ export class ScreenFader implements Entity {
     render(display: Display): void {
         this.width = display.getXPositionFromTime(this.time.getCurrentTimeInPercentOfDay() * 24);
 
-        display.drawRectangle(this.x, this.y, this.width, this.height, this.color, this.alpha);
+        display.drawRectangle(
+            this.x,
+            this.y,
+            this.width,
+            display.getDrawableHeight(),
+            this.color,
+            this.alpha
+        );
     }
 }

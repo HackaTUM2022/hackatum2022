@@ -5,15 +5,14 @@ import { Display } from "./display";
 import { Scoreboard } from "./Entities/scoreboard";
 import { GameEventController } from "./Events/gameEventController";
 import { Task } from "./Entities/task";
-import { getPlayerPostionData } from "./handsfreeController";
 import { Time } from "./time";
 import { DaySeparator } from "./Entities/daySeparator";
 import { ClientNetworking } from "./ClientNetworking";
 import { TimeIndicator } from "./Entities/timeIndicator";
 import { Chart } from "./Entities/chart";
 import { WeatherIcon } from "./Entities/weatherIcon";
-import { Rectangle } from "./Entities/rectangle";
 import { ScreenFader } from "./Entities/screenFader";
+import { Light } from "./Entities/light";
 
 export class Game {
     // "entities" gets rendered on a layer under "gui"
@@ -67,7 +66,7 @@ export class Game {
         this.time = new Time(30000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
-        this.screenFader = new ScreenFader(0, this.cameraCanvasHeight, this.time, "black", 0.5);
+        this.screenFader = new ScreenFader(0, display.getDrawableHeight(), this.time, "black", 0.5);
         this.initAssets();
     }
 
@@ -83,6 +82,7 @@ export class Game {
     initAssets() {
         this.initGUI();
         this.addEntity(new DaySeparator(this.time));
+        this.addEntity(new Light(0, this.currentHeight, this.time));
     }
 
     initGUI() {
@@ -140,10 +140,6 @@ export class Game {
             gui.render(display);
         }
 
-        for (let task of this.tasks) {
-            task.render(display);
-        }
-
         this.chart.render(display);
 
         this.productionChart.render(display);
@@ -155,6 +151,9 @@ export class Game {
             timeLine.render(display);
         }
         this.screenFader.render(display);
+        for (let task of this.tasks) {
+            task.render(display);
+        }
     }
 
     handleInput(controller: Controller) {

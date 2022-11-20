@@ -37,6 +37,7 @@ export class Display {
         let toLoad = Task.getImagesToLoad();
         toLoad = [...toLoad, ...WeatherIcon.getImagesToLoad()];
         toLoad.push("gras.png");
+        toLoad.push("moon.png");
         this.imageLoader = new ImageLoader(toLoad);
 
         this.cameraCanvasWidth = this.camDebugCanvas.width as number;
