@@ -62,7 +62,7 @@ export class Game {
         this.cameraCanvasHeight = display.cameraCanvasHeight;
 
         this.gameEvents = new GameEventController();
-        this.time = new Time(20000);
+        this.time = new Time(30000);
         this.money = 100; // TODO: decide on starting money
         this.player = new Player(0, 0, this, display);
 
