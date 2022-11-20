@@ -40,7 +40,7 @@ services:
     image: philippzagar/hackatum-client:latest
     build:
       context: ./client
-      dockerfile: Dockerfile.deploy
+      dockerfile: DockerfileDeploy
     container_name: hackatum-client
     restart: unless-stopped
     volumes:
