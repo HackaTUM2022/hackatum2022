@@ -114,10 +114,12 @@ export class Display {
         height: number,
         name: string,
         angle: number = 0,
-        shadowColor?: string
+        shadowColor?: string,
+        alpha: number = 1
     ) {
         if (this.imageLoader.isLoaded) {
             this.buffer.rotate(angle);
+            this.buffer.globalAlpha = alpha;
             const prevShadowColor = this.buffer.shadowColor;
             if (shadowColor !== undefined) {
                 this.buffer.shadowColor = shadowColor;
@@ -132,7 +134,7 @@ export class Display {
                 height
             );
             this.buffer.shadowColor = prevShadowColor;
-
+            this.buffer.globalAlpha = 1;
             this.buffer.rotate(-angle);
         } else {
             // this.drawRectangle(x, y, width, height, "red");

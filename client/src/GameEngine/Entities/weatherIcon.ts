@@ -32,7 +32,10 @@ export class WeatherIcon implements Entity {
             y,
             this.width,
             this.height,
-            "weather/" + this.weather + ".png"
+            "weather/" + this.weather + ".png",
+            0,
+            undefined,
+            0.5
         );
     }
 
